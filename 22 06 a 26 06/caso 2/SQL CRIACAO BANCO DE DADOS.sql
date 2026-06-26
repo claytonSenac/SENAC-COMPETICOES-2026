@@ -1,0 +1,138 @@
+create database IF NOT EXISTS gestao_escolar;
+use gestao_escolar;
+
+CREATE TABLE IF NOT EXISTS Endereco ( 
+	 Id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+	 Numero_Casa VARCHAR(5) NOT NULL,
+	 Rua VARCHAR(30) NOT NULL,
+	 Bairro VARCHAR (30) NOT NULL,
+	 Cidade VARCHAR(30) NOT NULL,
+	 Estado VARCHAR(2) NOT NULL,
+	 -- deveria ser enum
+	 Cep VARCHAR(8) NOT NULL
+ );
+ 
+ CREATE TABLE IF NOT EXISTS Pessoa (
+	Id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+	FK_Id_Endereco INT NOT NULL,
+ 
+	FOREIGN KEY (FK_Id_Endereco) references Endereco(Id)
+);
+ 
+ CREATE TABLE IF NOT EXISTS Responsavel (
+	Id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+	Nome VARCHAR(20) NOT NULL,
+	Sobrenome VARCHAR(100) NOT NULL,
+	CPF CHAR(11) NOT NULL,
+	Data_Nascimento DATE NOT NULL,
+	Email VARCHAR(100) NOT NULL,
+    Grau_Parentesco VARCHAR(50) NOT NULL,
+    FK_Id_Pessoa INT NOT NULL,
+	
+    FOREIGN KEY (FK_Id_Pessoa) references Pessoa(Id)
+);
+ 
+ CREATE TABLE IF NOT EXISTS Aluno (
+	  Id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+	  Nome VARCHAR(20) NOT NULL,
+	  Sobrenome VARCHAR(100) NOT NULL,
+	  CPF CHAR(11) NOT NULL,
+	  Data_Nascimento DATE NOT NULL,
+	  Email VARCHAR(100) NOT NULL,
+	  FK_Id_Pessoa INT NOT NULL,
+	  FK_Id_Responsavel INT NOT NULL,
+	  
+	  FOREIGN KEY (FK_Id_Pessoa) references Pessoa(Id),
+	  FOREIGN KEY (FK_Id_Responsavel) references Responsavel(Id)
+);
+
+CREATE TABLE IF NOT EXISTS Escola 
+(
+	 Id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+     NomeEscola VARCHAR(50) NOT NULL
+); 
+
+CREATE TABLE IF NOT EXISTS Sala
+(
+	 Id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+     Nome_Sala VARCHAR(30) NOT NULL,
+     Capacidade INT NOT NULL DEFAULT 1
+);
+ 
+ CREATE TABLE IF NOT EXISTS Turma 
+ (
+	 Id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+     Nome_Turma VARCHAR(30) NOT NULL,
+     Ano_Letivo INT NOT NULL,
+     FK_Id_Escola INT NOT NULL,
+     Turno CHAR(1) NOT NULL,
+     FK_Id_Sala INT NOT NULL,
+     
+     FOREIGN KEY (FK_Id_Escola) References Escola(Id),
+     FOREIGN KEY (FK_Id_Sala) References Sala(Id)
+ );
+ 
+ CREATE TABLE IF NOT EXISTS Disciplina 
+ (
+	 Id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+     Carga_Horaria INT NOT NULL,
+     Nome_Disciplina VARCHAR(30) NOT NULL
+ );
+ 
+ CREATE TABLE IF NOT EXISTS Boletim 
+ (
+	 Id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+     FK_Id_Turma INT NOT NULL,
+     FK_Id_Disciplina INT NOT NULL,
+     Media_Final Float(3,2) NOT NULL
+ );
+ 
+ CREATE TABLE Frequencia 
+ (
+	 Id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+     FK_Id_Aluno INT NOT NULL,
+     FK_Id_Disciplina INT NOT NULL,
+     Data_Aula DATETIME NOT NULL,
+     Presenca BOOLEAN NOT NULL DEFAULT FALSE,
+     
+     FOREIGN KEY (FK_Id_Aluno) REFERENCES Aluno(Id),
+     FOREIGN KEY (FK_Id_Disciplina) REFERENCES Disciplina(Id)
+);
+
+CREATE TABLE IF NOT EXISTS Nota 
+(
+	Id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+	Bimestre INT NOT NULL,
+	Valor_Nota FLOAT(3,2) NOT NULL,
+	Data_Lancamento DATETIME NOT NULL,
+	FK_Id_Disciplina INT NOT NULL,
+      
+	FOREIGN KEY (FK_Id_Disciplina) REFERENCES Disciplina(Id)
+);
+
+CREATE TABLE IF NOT EXISTS Professor 
+(
+	 Id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+     Nome VARCHAR(20) NOT NULL,
+     CPF CHAR(11) NOT NULL,
+     FK_Id_Pessoa INT NOT NULL,
+     FOREIGN KEY (FK_Id_Pessoa) REFERENCES Pessoa(Id)
+);
+
+CREATE TABLE IF NOT EXISTS Formacao
+(
+	Id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    Nome_Formacao VARCHAR (20) NOT NULL,
+    Instituicao VARCHAR(20) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS Professor_Formacao
+(
+	Id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+	FK_Id_Professor INT NOT NULL,
+    FK_Id_Formacao INT NOT NULL,
+    
+    FOREIGN KEY (FK_Id_Professor) REFERENCES Professor(Id),
+    FOREIGN KEY (FK_Id_Formacao) REFERENCES Formacao(Id)
+);
+
