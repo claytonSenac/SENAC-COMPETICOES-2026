@@ -1,0 +1,13 @@
+npm init -y
+
+
+DEPENDENCIAS
+npm install --save-dev nodemon
+
+npm i express
+
+npm install dotenv --save
+
+// .env deve ficar na raiz!
+
+npm install --save mysql2

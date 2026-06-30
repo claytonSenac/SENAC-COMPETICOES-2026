@@ -11,14 +11,25 @@ CREATE TABLE IF NOT EXISTS Endereco (
 	 -- deveria ser enum
 	 Cep VARCHAR(8) NOT NULL
  );
+  CREATE TABLE IF NOT EXISTS Telefone (
+		Id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+	DDD_Pais VARCHAR (3) NOT NULL,
+    Numero VARCHAR(11) NOT NULL
+ );
+ 
+ 
  
  CREATE TABLE IF NOT EXISTS Pessoa (
 	Id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
 	FK_Id_Endereco INT NOT NULL,
+    FK_Id_Telefone INT NOT NULL,
+    
  
-	FOREIGN KEY (FK_Id_Endereco) references Endereco(Id)
+	FOREIGN KEY (FK_Id_Endereco) references Endereco(Id),
+    FOREIGN KEY (FK_Id_Telefone) REFERENCES Telefone(Id)
 );
  
+
  CREATE TABLE IF NOT EXISTS Responsavel (
 	Id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
 	Nome VARCHAR(20) NOT NULL,
@@ -68,6 +79,7 @@ CREATE TABLE IF NOT EXISTS Sala
      Turno CHAR(1) NOT NULL,
      FK_Id_Sala INT NOT NULL,
      
+     
      FOREIGN KEY (FK_Id_Escola) References Escola(Id),
      FOREIGN KEY (FK_Id_Sala) References Sala(Id)
  );
@@ -83,8 +95,10 @@ CREATE TABLE IF NOT EXISTS Sala
  (
 	 Id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
      FK_Id_Turma INT NOT NULL,
-     FK_Id_Disciplina INT NOT NULL,
-     Media_Final Float(3,2) NOT NULL
+     FK_Id_Aluno INT NOT NULL,
+     
+     FOREIGN KEY (FK_Id_Turma) REFERENCES Turma(Id),
+     FOREIGN KEY (FK_Id_Aluno) REFERENCES Aluno(Id)
  );
  
  CREATE TABLE Frequencia 
@@ -94,6 +108,8 @@ CREATE TABLE IF NOT EXISTS Sala
      FK_Id_Disciplina INT NOT NULL,
      Data_Aula DATETIME NOT NULL,
      Presenca BOOLEAN NOT NULL DEFAULT FALSE,
+     FK_Id_Turma INT NOT NULL,
+     FOREIGN KEY(FK_Id_Turma) REFERENCES Turma(Id),
      
      FOREIGN KEY (FK_Id_Aluno) REFERENCES Aluno(Id),
      FOREIGN KEY (FK_Id_Disciplina) REFERENCES Disciplina(Id)
@@ -106,9 +122,14 @@ CREATE TABLE IF NOT EXISTS Nota
 	Valor_Nota FLOAT(3,2) NOT NULL,
 	Data_Lancamento DATETIME NOT NULL,
 	FK_Id_Disciplina INT NOT NULL,
+    FK_Id_Aluno INT NOT NULL,
+    FK_Id_Boletim INT NOT NULL,
       
-	FOREIGN KEY (FK_Id_Disciplina) REFERENCES Disciplina(Id)
+	FOREIGN KEY (FK_Id_Aluno) REFERENCES Aluno(Id),
+	FOREIGN KEY (FK_Id_Disciplina) REFERENCES Disciplina(Id),
+    	FOREIGN KEY (FK_Id_Boletim) REFERENCES Boletim(Id)
 );
+
 
 CREATE TABLE IF NOT EXISTS Professor 
 (
@@ -136,3 +157,14 @@ CREATE TABLE IF NOT EXISTS Professor_Formacao
     FOREIGN KEY (FK_Id_Formacao) REFERENCES Formacao(Id)
 );
 
+
+
+CREATE TABLE IF NOT EXISTS Turma_Aluno
+(
+	Id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    FK_Id_Aluno INT NOT NULL,
+    FK_Id_Turma INT NOT NULL,
+    
+    FOREIGN KEY (FK_Id_Aluno) REFERENCES Aluno(Id),
+    FOREIGN KEY (FK_Id_Turma) REFERENCES Turma(Id)
+);
