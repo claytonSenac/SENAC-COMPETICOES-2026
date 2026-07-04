@@ -1,12 +1,12 @@
 {
-  "name": "api-rest-gerenciamento-pedidos",
+  "name": "api-varejista-soares",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon node ./index.js"
+    "dev": "nodemon ./index.js"
   },
   "keywords": [],
   "author": "",
@@ -16,7 +16,6 @@
     "express": "^5.2.1",
     "mysql2": "^3.22.5",
     "nodemon": "^3.1.14",
-    "swagger-jsdoc": "^6.3.0",
-    "swagger-ui-express": "^5.0.1"
+    "zod": "^4.4.3"
   }
 }

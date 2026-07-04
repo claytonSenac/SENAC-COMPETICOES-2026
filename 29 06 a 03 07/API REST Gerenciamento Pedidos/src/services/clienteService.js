@@ -1,7 +1,8 @@
 import { db } from "../db/ConexaoDb.js";
+import { formatarTelefone } from "../utils/formatarTelefone.js";
 import {responseBase} from '../utils/responseBase.js'
 import { PedidoService } from "./pedidoService.js";
-
+ 
  async function criarCliente(c){
     responseBase.sucess = false;
     responseBase.message = "";
@@ -41,6 +42,11 @@ import { PedidoService } from "./pedidoService.js";
         const [results,fields] = await db.execute('SELECT * FROM Cliente;');
         
         if(results.length > 0){
+
+            for(let i = 0; i < results.length; i++){
+                results[i].Telefone = formatarTelefone(results[i].Telefone)
+            };
+
             responseBase.data = results;
             responseBase.message = 'CLIENTES CARREGADOS';
             responseBase.sucess = true
@@ -71,7 +77,9 @@ import { PedidoService } from "./pedidoService.js";
         const [results,fields] = await db.execute('SELECT * FROM Cliente WHERE Id = ?;',[idCliente]);
         
         if(results.length > 0){
+            results[0].Telefone = formatarTelefone(results[0].Telefone);
             responseBase.data = results;
+
             responseBase.message = 'CLIENTE ENCONTRADOR';
             responseBase.sucess = true;
             return responseBase;
@@ -109,7 +117,7 @@ import { PedidoService } from "./pedidoService.js";
                 
                 return responseBase;
             }
-            console.log(results)
+            //console.log(results)
         } catch (error) {
             responseBase.sucess = false;
             responseBase.message = error;
@@ -167,7 +175,7 @@ function validarCliente(c){
         return responseBase;
     }
 
-    if(isNaN(c.Telefone) || c.Telefone.lenght > 12){
+    if(isNaN(c.Telefone) || c.Telefone.lenght != 11){
         responseBase.sucess = false;
         responseBase.message += `Telefone é somente numeros e tamanho maximo de 12 digitos`;
         return responseBase;

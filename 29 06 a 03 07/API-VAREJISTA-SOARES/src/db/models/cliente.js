@@ -1,0 +1,30 @@
+import { db } from "../conexaoBanco.js";
+import * as z from 'zod';
+
+
+export async function criarTabelaCliente(){
+    try {
+        const [r,f] = await db.execute(`
+            CREATE TABLE IF NOT EXISTS Cliente
+            (
+                Id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                Nome VARCHAR(80) NOT NULL,
+                Cpf CHAR(11) NOT NULL UNIQUE,
+                Email VARCHAR(200) NOT NULL UNIQUE,
+                Telefone CHAR(11) NOT NULL
+            );`);
+
+        return;
+    } catch (error) {
+        console.log(error)
+        return;
+    }
+};
+
+export const Cliente = z.object({
+    Id: z.int().optional(),
+    Nome: z.string().max(80),
+    Cpf: z.string().length(11),
+    Email: z.string().max(200),
+    Telefone: z.string().length(11)
+})

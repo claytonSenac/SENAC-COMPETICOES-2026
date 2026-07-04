@@ -3,6 +3,8 @@ import 'dotenv/config';
 import { iniciarBanco } from './src/db/ConexaoDb.js';
 import { mapearControlerCliente } from './src/controllers/clienteController.js';
 import { mapearControlerPedido } from './src/controllers/pedidoController.js';
+import { formatarData } from './src/utils/formatarData.js';
+
 
 export const app = express();
 const PORT = process.env.PORT ?? 3001;

@@ -30,8 +30,6 @@ export async function iniciarBanco(){
     await criarTabelaPedido();
 }; 
 
- 
-
 async function criarTabelaCliente(){
     try{
         const [results,fields] = await db.execute(

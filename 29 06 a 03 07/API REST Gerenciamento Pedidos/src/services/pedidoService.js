@@ -1,4 +1,5 @@
 import { db } from "../db/ConexaoDb.js";
+import { formatarData } from "../utils/formatarData.js";
 import {responseBase} from '../utils/responseBase.js';
 import { ClienteService } from "./clienteService.js";
 
@@ -40,6 +41,10 @@ async function listarPedidos(){
     try {
         const [results,fields] = await db.execute('SELECT * FROM Pedido;');
         
+        for(let i = 0; i < results.length; i++){
+            results[i].DataPedido = formatarData(results[i].DataPedido);
+        }
+
         responseBase.data = results;
         responseBase.message = 'Pedidos CARREGADOS';
         responseBase.sucess = true
@@ -70,6 +75,12 @@ async function listarPedidos(){
         const [results,fields] = await db.execute('SELECT * FROM Pedido WHERE Id = ?;',[idPedido]);
         
         if(results.length > 0){
+
+            results[0].DataPedido = formatarData(results[0].DataPedido);
+            let cliente = await ClienteService.listarClientesPorId(results[0].IdCliente);
+            if(cliente.data != null){
+                results[0].Cliente = cliente.data[0];
+            }
             responseBase.data = results;
             responseBase.message = 'Pedido ENCONTRADOR';
             responseBase.sucess = true;
@@ -139,7 +150,7 @@ async function listarPedidoPorIdCliente(idCliente){
                 
                 return responseBase;
             }
-            console.log(results)
+            //console.log(results)
         } catch (error) {
             responseBase.sucess = false;
             responseBase.message = error;
