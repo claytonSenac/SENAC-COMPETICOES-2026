@@ -51,8 +51,8 @@ const EnumStatus = ["Aberto","Pago","Cancelado","Finalizado"]
 
 export const Pedido = z.object({
     Id: z.int().optional(),
-    DataPedido: z.date(),
-    ValorTotal: z.float64().positive().min(0.01),
+    DataPedido: z.date().optional(),
+    ValorTotal: z.float64().positive().optional(),
     Status: z.enum(EnumStatus),
     IdCliente: z.int().min(1),
     IdFuncionario: z.int().min(1)

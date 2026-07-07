@@ -1,4 +1,6 @@
-import { Funcionario } from "../db/models/funcionario";
+import { Funcionario } from "../db/models/funcionario.js";
+import { ResponseBase } from "../utils/response.js";
+import { db } from "../db/conexaoBanco.js";
 
 async function criarFuncionario(f){
 
@@ -69,7 +71,7 @@ async function editarFuncionario(f,idFuncionario){
     }
 
     try {
-        const [r,f] = await db.execute(`UPDATE Funcionario SET Nome = ?, Email = ?, Cargo = ?, Telefone = ? WHERE Id = ?`,[f.Nome, f.Email, f.Cargo, f.Telefone,idFuncionario]);
+        const [r,fields] = await db.execute(`UPDATE Funcionario SET Nome = ?, Email = ?, Cargo = ?, Telefone = ? WHERE Id = ?`,[f.Nome, f.Email, f.Cargo, f.Telefone,idFuncionario]);
 
         
 
@@ -150,5 +152,6 @@ export const FuncionarioService = {
     criarFuncionario,
     editarFuncionario,
     excluirFuncionario,
-    validarFuncionario
+    validarFuncionario,
+    listarFuncionariosPorId
 }

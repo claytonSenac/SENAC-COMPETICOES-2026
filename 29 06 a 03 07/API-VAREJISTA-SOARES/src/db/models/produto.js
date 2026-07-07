@@ -10,7 +10,7 @@ export async function criarTabelaProduto(){
                 Id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
                 Nome VARCHAR(50) NOT NULL UNIQUE,
                 Descricao TEXT,
-                Preco FLOAT(10,2) NOT NULL,
+                Preco DECIMAL(10,2) NOT NULL,
                 Estoque INT DEFAULT 1,
                 IdCategoria INT NOT NULL,
 

@@ -21,9 +21,6 @@ export async function criarTabelaCategoria(){
 export const Categoria = z.object({
     Id: z.int().optional(),
     Nome: z.string().max(50),
-    Descricao: z.string().optional(),
-    Preco: z.float64().positive(),
-    Estoque: z.int().positive(),
-    IdCategoria: z.int()
+    Descricao: z.string().optional()
 });
 
