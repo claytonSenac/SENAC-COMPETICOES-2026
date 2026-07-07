@@ -4,6 +4,8 @@ import { ClienteService } from "./clienteService.js";
 import { FuncionarioService } from "./funcionarioService.js";
 import { gerarDatetime } from "../utils/pedidoUtils.js";
 import { db } from "../db/conexaoBanco.js";
+import { ItensPedido } from "../db/models/pedido.js";
+import { ProdutoService } from "./produtoService.js";
 
 export async function cadastrarPedido(p){
     const isValid = await validarPedido(p);
@@ -18,6 +20,8 @@ export async function cadastrarPedido(p){
     if(!temEstoque.sucesso){
         return new ResponseBase(false,temEstoque.erro,null)
     }
+
+
 }
 
 async function verificarEstoque(produtos) {
@@ -68,6 +72,50 @@ async function verificarEstoque(produtos) {
 }
 
 async function calcularTotalPedido(produtos){
+    let idsProdutos = [];
+
+    let valorTotal = 0.00;
+
+        //some para verificar em algum item do array
+        produtos.forEach(p => {
+            if(!p.Id || !p.Quantidade){
+                return false;
+            }
+
+            idsProdutos.push(Number(p.Id));
+        });
+        
+
+        if(idsProdutos.length > 0){
+            const [rows] = await db.query(
+                `SELECT Id, Preco,Nome FROM Produto WHERE Id IN (?) ;`,
+                [idsProdutos]
+            );
+
+        for (const produto of produtos) {
+            const produtoBanco = rows.find(r => r.Id === produto.Id);
+            //sempre vai ter porque validei antes!
+            let itemPedido = {
+                Id: produto.Id,
+                Quantidade: 2
+            }
+            await inserirTabelaItensPedido(i);
+            
+            
+        }
+    }
+
+}
+
+
+async function inserirTabelaItensPedido(i){
+    const valid = validarItemPedido(i);
+
+    if(valid.sucess){
+        const [rows] = await db.execute("INSERT INTO ItensPedido (Id, IdPedido,IdProduto,Quantidade) VALUES (DEFAULT,?, ?,?)",[i.IdPedido, i.IdProduto, i.Quantidade]);
+    }else{
+        return false;
+    }
 
 }
 
@@ -87,6 +135,39 @@ async function validarPedido(p){
         }
 
         return new ResponseBase(true,"valid", res);
+    } catch (error) {
+        return new ResponseBase(false,error,null);
+    }
+}
+
+async function validarItemPedido(iP){
+    try {
+        const res = await ItensPedido.parse(iP);
+
+        const existePedido = await listarPedidoPorId(iP.IdPedido);
+        const existeProduto = await ProdutoService.listarProdutoPorId(iP.IdProduto);
+
+        if(existePedido.data.length == 0){
+            return new ResponseBase(false,"NAO EXISTE PEDIDO", null)
+        }
+
+        if(existeProduto.data.length == 0){
+            return new ResponseBase(false,"NAO EXISTE PRODUTO", null)
+        }
+
+            return new ResponseBase(true,"", null)
+    } catch (error) {
+        return error;
+    }
+}
+
+async function listarPedidoPorId(idPedido){
+    if(isNaN(idPedido)){
+        return new ResponseBase(false,'SEM ID Pedido',null);
+    }
+    try {
+        const [r,f] = await db.execute("SELECT * FROM Pedido WHERE Id = ?;",[idCategoria]);
+        return new ResponseBase(true,"DADO BUSCADO",r ?? []);
     } catch (error) {
         return new ResponseBase(false,error,null);
     }

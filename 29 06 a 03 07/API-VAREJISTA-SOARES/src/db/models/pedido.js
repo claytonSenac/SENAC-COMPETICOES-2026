@@ -62,7 +62,6 @@ export const Pedido = z.object({
 
 export const ItensPedido = z.object({
     Id: z.int().optional(),
-    Subtotal: z.float64().positive().min(0.01),
     IdPedido: z.int().min(1),
     IdProduto: z.int().min(1),
     Quantidade: z.int().min(1)
