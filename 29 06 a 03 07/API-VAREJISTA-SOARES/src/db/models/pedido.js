@@ -6,9 +6,8 @@ export async function criarTabelaPedido(){
         const [r,f] = await db.execute(`
             CREATE TABLE IF NOT EXISTS Pedido
             (
-                ID INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+                Id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
                 DataPedido DATETIME NOT NULL,
-                ValorTotal FLOAT(10,2) NOT NULL,
                 Status VARCHAR(10) NOT NULL,
                 IdCliente INT NOT NULL,
                 IdFuncionario INT NOT NULL,
@@ -31,7 +30,7 @@ export async function criarTabelaItensPedido(){
         const [r,f] = await db.execute(`
             CREATE TABLE IF NOT EXISTS ItensPedido
             (
-                ID INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+                Id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
                 IdPedido INT NOT NULL,
                 IdProduto INT NOT NULL,
                 Quantidade INT NOT NULL,
@@ -47,12 +46,13 @@ export async function criarTabelaItensPedido(){
     }
 }
 
+
+
 const EnumStatus = ["Aberto","Pago","Cancelado","Finalizado"]
 
 export const Pedido = z.object({
     Id: z.int().optional(),
     DataPedido: z.date().optional(),
-    ValorTotal: z.float64().positive().optional(),
     Status: z.enum(EnumStatus),
     IdCliente: z.int().min(1),
     IdFuncionario: z.int().min(1)

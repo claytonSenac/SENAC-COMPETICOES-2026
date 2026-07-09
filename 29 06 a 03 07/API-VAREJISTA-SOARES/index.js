@@ -5,7 +5,8 @@ import { iniciarControlerCliente } from './src/controllers/clienteController.js'
 import { iniciarControlerFuncionario } from './src/controllers/funcionarioController.js';
 import { iniciarControlerCategoria } from './src/controllers/categoriaController.js';
 import { iniciarControlerProduto } from './src/controllers/produtoController.js';
-import { cadastrarPedido } from './src/services/pedidoService.js';
+import { iniciarControlerPedido } from './src/controllers/pedidoController.js';
+
 
 const PORT = process.env.PORT ?? 3000;
 
@@ -27,22 +28,4 @@ await iniciarControlerCliente();
 await iniciarControlerFuncionario();
 await iniciarControlerCategoria();
 await iniciarControlerProduto();
-
-
-
-let payload = {
-    Status : "Aberto",
-    IdCliente: 2,
-    IdFuncionario: 2,
-    ItensPedido: [
-        {
-            Id: 3,
-            Quantidade: 222
-        },
-        {
-            Id:5,
-            Quantidade:2
-        }
-    ]
-}
-await cadastrarPedido(payload);
+await iniciarControlerPedido();
