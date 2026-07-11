@@ -1,0 +1,25 @@
+.boasVindas{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin: 0 auto;
+    gap: 3rem;
+    background-color: brown;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.301);
+    color: white;
+}
+
+.introducao{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.dadosAluno{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}

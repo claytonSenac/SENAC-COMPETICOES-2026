@@ -1,0 +1,29 @@
+.containerPessoa{
+    padding: 1rem;
+    border-radius: 8px;
+    background-color: #a6dbff;
+    width: 100%;
+    max-width: 600px;
+    padding: 2rem;
+    gap: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.boxInfoPessoa{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1rempx;
+
+}
+
+.containerCaracteristicas{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 2rem;
+    
+}

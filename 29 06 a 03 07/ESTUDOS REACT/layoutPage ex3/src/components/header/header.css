@@ -1,0 +1,28 @@
+header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2rem;
+    background-color: #222222;
+    height: 70px;
+    width: 100%;
+    color: white;
+ }
+
+.navigationHeader{
+    display: flex;
+    gap: 1rem;
+}
+
+.navigationHeader a{
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.image{
+    height: 40px;
+    width: 40px;
+    background-color: red;
+}

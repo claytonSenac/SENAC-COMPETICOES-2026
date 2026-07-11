@@ -1,0 +1,11 @@
+main{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 2rem;
+    flex-direction: column;
+    width: 60vw;
+    max-width: 1200px;
+    background-color: cornsilk;
+    margin: 2rem ;
+}
