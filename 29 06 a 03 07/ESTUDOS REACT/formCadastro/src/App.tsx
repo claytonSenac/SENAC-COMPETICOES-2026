@@ -4,7 +4,9 @@ function App() {
 
   return (
     <>
-      <FormCadastro />
+      <div className=" bg-blue-200 w-screen h-screen flex flex-col gap-2 items-center justify-center">
+        <FormCadastro />
+      </div>
     </>
   )
 }

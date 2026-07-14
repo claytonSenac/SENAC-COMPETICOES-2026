@@ -1,0 +1,27 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  transition: .4s;
+}
+
+.container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+  width: 100vw;
+  height: 100vh;
+}
+
+button{
+  padding: 2rem;
+  outline: none;
+  background-color: transparent;
+  border: 1px solid black;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: white;
+  font-weight: bold;
+  font-size: 2rem;
+}
