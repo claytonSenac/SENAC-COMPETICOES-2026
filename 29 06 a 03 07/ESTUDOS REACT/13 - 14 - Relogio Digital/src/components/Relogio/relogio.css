@@ -1,0 +1,45 @@
+.containerRelogio{
+    width: 100vw;
+    height: 100vh;
+    background-color: blueviolet;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.relogio{
+    background-color: whitesmoke;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0px 0px 5px 1px #00000073;
+    width: 100%;
+    max-width: 900px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.relogioField{
+    width: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
+    border-radius: 12px;
+    padding: 1rem;
+}
+
+.relogioField .label{
+    font-size: 3rem;
+}
+
+.relogioField .value{
+    font-size: 6rem;
+    letter-spacing: 5px;
+}
+
+
+

@@ -1,0 +1,42 @@
+form{
+    display: flex;
+    align-items: center;
+ justify-content: space-between;
+    gap: 1rem;
+    width: 80%;
+     margin: 1rem auto;
+    text-align: center;
+    background-color: lightcyan;
+    padding: 1rem;
+    border-radius: 1rem;
+    box-shadow: 0px 0px 5px 3px #00000045;
+}
+
+h2{
+    text-align: center;
+}
+
+.formSection{
+    display: flex;
+    gap: 1rem;
+    width: 40%;
+}
+
+.formSection label{
+    font-weight: bold;
+}
+
+.formSection input{
+    border: 1px solid black;
+    border-radius: 4px;
+    padding: 2px;
+ 
+}
+
+form button{
+    padding: .5rem 1rem;
+    border: 1px solid black;
+     border-radius: 5px;
+    cursor: pointer;
+    background-color: cyan;
+}

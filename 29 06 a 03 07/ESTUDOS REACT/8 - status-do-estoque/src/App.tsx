@@ -25,7 +25,7 @@ function App() {
 
   return (
     <>
-      <div className="container w-screen h-screen bg-blue-200 flex flex-col gap-2 items-center justify-center">
+      <div className="contailner w-screen h-screen bg-blue-200 flex flex-col gap-2 items-center justify-center">
           <h1 className='text-3xl font-bold'>Status do Estoque</h1>
           <div className="boxLabel bg-white p-4 rounded flex gap-2 font-bold items-center justify-center">
             <label htmlFor="Estoque" className='text-xl'>Estoque:</label>

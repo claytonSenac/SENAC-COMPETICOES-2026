@@ -1,0 +1,20 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.conatinerDataJson{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.user{
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  background-color: lightblue;
+  margin-bottom: 20px;
+  width: 40%;
+}

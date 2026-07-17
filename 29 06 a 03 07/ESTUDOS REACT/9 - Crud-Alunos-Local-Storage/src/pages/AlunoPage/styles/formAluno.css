@@ -1,0 +1,56 @@
+.formAluno{
+    display: flex;
+    background-color: white;
+    padding: 2rem;
+    flex-direction: column;
+    border-radius: .5rem;
+}
+
+form{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.formSection{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    flex-direction: column;
+}
+
+.formSection label{
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.formSection input{
+    border: 1px solid black;
+    border-radius: .2rem;
+    padding: .4rem;
+}
+
+.containerButton{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.saveButton{
+   
+    padding: 1rem;
+ 
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(0, 162, 255);
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: .4rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+}

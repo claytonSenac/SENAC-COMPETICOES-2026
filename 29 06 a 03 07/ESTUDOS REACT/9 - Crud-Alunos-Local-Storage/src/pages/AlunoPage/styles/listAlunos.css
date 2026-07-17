@@ -1,0 +1,41 @@
+
+.listAlunos{
+    width: 80%;
+    max-width: 800px;
+    background-color: white;
+    padding: 2rem;
+    border-radius: .5rem;
+    box-shadow: 0px 0px 3px 0px #00000040;
+}
+
+h2{
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.containerAlunos{
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    height: 400px;
+    overflow-y: scroll;
+}
+
+.aluno{
+    margin: 10px 20px;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin-bottom: .5rem;
+    background-color: #dcdcdc;
+    padding: 1rem;
+    border-radius: 0.5rem;
+}
+
+.aluno section{
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 1rem;
+}

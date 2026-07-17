@@ -1,0 +1,38 @@
+main{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    flex-direction: column;
+}
+
+.containerProdutos{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+  color: black;
+  background-color: #c084fc;
+  font-weight: bold;
+  margin: 0 auto;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.produto{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 2rem;
+}
+
+.produto button{
+    border: 1px solid black;
+    background-color: lightcoral;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+}

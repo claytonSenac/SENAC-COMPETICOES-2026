@@ -1,0 +1,28 @@
+header{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    background-color: lightgoldenrodyellow;
+    padding: 1rem;
+}
+
+header nav{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5rem;
+}
+
+header nav li{
+    font-weight: bold;
+    color: black;
+    cursor: pointer;
+    list-style: none;
+    transition: .4s;
+}
+
+.active{
+    color: red;
+    background-color: white;
+}
