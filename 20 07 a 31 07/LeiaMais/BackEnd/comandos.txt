@@ -1,0 +1,21 @@
+ npm i express typescript tsx sequelize mysql2
+
+npx tsc --init
+
+passei para type module
+
+npm install -D @types/node
+
+"dev": "npx tsx watch src/index.ts" 
+
+
+express reclamou do tipo 
+
+npm i --save-dev @types/express
+
+npm i dotenv
+
+
+    "module": "es2022"
+    TSCONFIG
+
