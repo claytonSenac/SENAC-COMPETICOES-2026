@@ -1,0 +1,42 @@
+@import '../../../variables.css';
+@import '../../../index.css';
+.gerenciamentoUsuario{
+    display: flex;
+    background-color: var(--PrimaryColor);
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
+    height: 100%;
+    min-height: 100vh;
+    flex-direction: column;
+    padding: 1rem;
+    gap: 2rem;
+}
+
+h1{
+    text-align: center;
+}
+
+
+.containerFeatures{
+    display: flex;
+    height: 100%;
+}
+
+
+@media screen and (width < 1440px) {
+    .containerFeatures{
+        flex-direction: column;
+        gap: 2rem;
+    }
+}
+
+.botaoSobre{
+    padding: 1rem;
+    background-color: white;
+    cursor: pointer;
+    border: 1px solid black;
+    border-radius: 12px;
+    width: 200px;
+    margin: 0 auto;
+}

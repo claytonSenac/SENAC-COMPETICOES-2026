@@ -1,0 +1,8 @@
+.mainLayout{
+    width: 100%;
+    max-width: 1400px;
+    background-color: var(--Branco);
+    margin: 0 auto;
+    height: 100%;
+    min-height: 100vh
+}

@@ -1,0 +1,42 @@
+.modalConfirmAction{
+    background-color: #00000050;
+    width: 100%;
+    height: 100%;
+    z-index: 99999;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modalConfirmAction .container{
+    background-color: white;
+    padding: 2rem;
+    border-radius: 12px;
+    gap: 2rem;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.container .actionsModalConfirm{
+    display: flex;
+    gap: 3rem;
+}
+
+.actionsModalConfirm button{
+    padding: 1rem;
+    border-radius: 10px;
+    border: 1px solid black;
+    background-color: rgb(87, 219, 46);
+    cursor: pointer;
+    color: white;
+    font-weight: bold;
+}
+
+.actionsModalConfirm .cancelDelete{
+    background-color: red !important;
+}
+

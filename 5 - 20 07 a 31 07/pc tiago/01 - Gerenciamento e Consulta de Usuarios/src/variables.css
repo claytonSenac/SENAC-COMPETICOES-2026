@@ -1,0 +1,13 @@
+:root{
+  --FontFamily: "Poppins", sans-serif;
+  --PrimaryColor: #F4F5FF;
+  --White: #FFF;
+  --BlueColor: #69C3E5;
+  --ContrastColor: #FF0D06;
+  --GrayColor: #B5B6BF;
+  --BlackColor: #3D3D40;
+  --BorderRadius: 0.75rem;
+  --LightBorderRadius: 0.3rem;
+  --BoxShadow: 0px 0px 4px 2px #00000040;
+  --LightBoxShadow: 0px 0px 3px 1px #0000002c;
+}

@@ -1,0 +1,56 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model autor {
+  id             Int      @id @default(autoincrement())
+  nome           String
+  nacionalidade  String
+  dataNascimento DateTime
+  livro          livro[]
+}
+
+model editora {
+  id           Int       @id @default(autoincrement())
+  nome         String    @unique(map: "Editora_nome_key")
+  cidade       String
+  dataFundacao DateTime
+  pais         String
+  deletedAt    DateTime?
+  livro        livro[]
+}
+
+model generolivro {
+  id      Int     @id @default(autoincrement())
+  nome    String
+  livro   livro[]
+  deleted Boolean @default(false)
+}
+
+model livro {
+  id             Int         @id @default(autoincrement())
+  nome           String      @unique(map: "Livro_nome_key")
+  isbn           String      @unique
+  dataFundacao   DateTime
+  numPaginas     Int
+  volume         String
+  colecao        String      @db.VarChar(50)
+  edicao         String      @db.VarChar(50)
+  dataLancamento DateTime
+  idGenero       Int
+  idEditora      Int
+  idAutor        Int
+  deleted        Boolean     @default(false)
+  autor          autor       @relation(fields: [idAutor], references: [id], map: "Livro_idAutor_fkey")
+  editora        editora     @relation(fields: [idEditora], references: [id], map: "Livro_idEditora_fkey")
+  generolivro    generolivro @relation(fields: [idGenero], references: [id], map: "Livro_idGenero_fkey")
+
+  @@index([idAutor], map: "Livro_idAutor_fkey")
+  @@index([idEditora], map: "Livro_idEditora_fkey")
+  @@index([idGenero], map: "Livro_idGenero_fkey")
+}

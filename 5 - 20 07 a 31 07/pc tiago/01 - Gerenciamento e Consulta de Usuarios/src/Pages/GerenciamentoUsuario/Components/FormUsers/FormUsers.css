@@ -1,0 +1,78 @@
+@import '../../../../variables.css';
+
+form{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    gap: 1rem;
+    width: 100%;
+    max-height: 500px;
+    max-width: 400px;
+    background-color: var(--White);
+    padding: 1rem;
+    border-radius: var(--LightBorderRadius);
+    box-shadow: var(--LightBoxShadow);
+    margin: 0 auto;
+}
+
+form h2{
+    text-align: center;
+}
+
+form section {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    justify-content: space-between;
+}
+
+form section label{
+    font-weight: bold;
+}
+
+form section input{
+    padding: 5px;
+    border-radius: var(--LightBorderRadius);
+    border: 1px solid black;
+}
+
+.buttons{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.buttons button{
+    padding: .4rem;
+    width: 50%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background-color: var(--BlueColor);
+    border: 1px solid black;
+    box-shadow: var(--LightBoxShadow);
+    border-radius: var(--LightBorderRadius);
+    font-weight: bold;
+    font-size: 1rem;
+    color: var(--White); 
+    transition: .4s;
+}
+
+.cancelButton{
+    background-color: var(--ContrastColor) !important;
+}
+
+.disabled{
+    background-color: gray !important;
+    opacity: 0.4;
+    cursor: not-allowed !important;
+}
+
+@media  screen and (width < 450px) {
+    form section {
+        flex-direction: column;
+    }
+}

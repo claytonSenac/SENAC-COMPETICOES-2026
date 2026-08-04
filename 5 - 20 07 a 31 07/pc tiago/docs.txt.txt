@@ -1,0 +1,4 @@
+https://www.realtimecolors.com/
+https://www.typescriptlang.org/tsconfig/
+
+

@@ -1,0 +1,47 @@
+.modalFavoritos{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    z-index: 9999;
+    background-color: #00000040;
+    top: 0;
+    left: 0;
+}
+
+.modalFavoritos h2{
+    text-align: center;
+}
+
+.container{
+    background-color: var(--Branco);
+    padding: 2rem;
+    width: 100%;
+    display: flex;
+    max-width: 1280px;
+    border-radius: var(--BR);
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    height: 80%;
+    overflow: scroll;
+}
+
+.container::-webkit-scrollbar {
+  display: none;
+}
+
+.headerFavs{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.headerFavs i{
+    color: var(--AzulEscuro);
+    font-size: 2rem;
+    cursor: pointer;
+}

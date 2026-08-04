@@ -1,0 +1,92 @@
+.containerModalDetails {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+
+    background-color: #00000040;
+}
+
+.modal {
+    width: 100%;
+    max-width: 450px;
+
+    background: var(--Branco);
+    border-radius: var(--BR);
+    box-shadow: var(--BS);
+
+    padding: 2rem;
+
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.modal h2 {
+    color: var(--AzulEscuroEscuro);
+}
+
+.modal form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.modal section {
+    display: flex;
+    flex-direction: column;
+    gap: .4rem;
+}
+
+.modal label {
+    color: var(--AzulEscuroEscuro);
+    font-weight: bold;
+}
+
+.modal input {
+    padding: .7rem .9rem;
+    border: 1px solid var(--LaranjaClaro);
+    border-radius: var(--BR);
+    outline: none;
+    font-size: 1rem;
+}
+
+.modal input:focus {
+    border-color: var(--AzulEscuro);
+}
+
+.buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: .8rem;
+    margin-top: .5rem;
+}
+
+.buttons button {
+    border: none;
+    border-radius: var(--BR);
+    padding: .7rem 1.2rem;
+    cursor: pointer;
+    font-weight: bold;
+    transition: .2s;
+}
+
+.cancelar {
+    background: #ddd;
+}
+
+.cancelar:hover {
+    background: #c7c7c7;
+}
+
+.salvar {
+    background: var(--AzulEscuro);
+    color: var(--Branco);
+}
+
+.salvar:hover {
+    background: var(--AzulEscuroEscuro);
+}
