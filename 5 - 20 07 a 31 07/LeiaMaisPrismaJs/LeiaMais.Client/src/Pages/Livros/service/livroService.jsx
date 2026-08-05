@@ -8,3 +8,14 @@ export async function getLivros(){
         console.log(error)
     }
 }
+
+export async function deleteLivro(id){
+    try {
+        const data = await fetch(apiUrl + `/livros/${id}`,{
+            method: "delete"
+        });
+        return await data.status;
+    } catch (error) {
+        console.log(error)
+    }
+}

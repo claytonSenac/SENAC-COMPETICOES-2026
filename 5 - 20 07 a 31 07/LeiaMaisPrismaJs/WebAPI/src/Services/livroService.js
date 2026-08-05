@@ -7,6 +7,9 @@ async function getAll(){
                 autor:true,
                 editora:true,
                 generolivro:true
+            },
+            where:{
+                deleted: false
             }
         });
         return data;

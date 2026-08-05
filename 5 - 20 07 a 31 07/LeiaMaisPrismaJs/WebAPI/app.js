@@ -7,11 +7,12 @@ import cors from 'cors';
 
 
 const app = express();
-app.use(express.json());
 
 app.use(cors({
-    origin: "http://localhost:5173"
+  origin: "http://localhost:5173",
 }))
+
+app.use(express.json());
 
 app.listen(3000,() => {
   console.log('server runinng')
@@ -122,6 +123,18 @@ app.delete("/genero/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const data = await generoService.deleteAsync(parseInt(id));
+    res.send(data);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: error.message });
+  }
+});
+
+app.put("/genero/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { genero } = req.body;
+    const data = await generoService.updateAsync(genero,parseInt(id));
     res.send(data);
   } catch (error) {
     console.error(error);
