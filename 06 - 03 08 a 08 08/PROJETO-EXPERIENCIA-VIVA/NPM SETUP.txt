@@ -1,0 +1,327 @@
+Microsoft Windows [versão 10.0.26200.7462]
+(c) Microsoft Corporation. Todos os direitos reservados.
+
+C:\Users\11204\Desktop\Clayton\SENAC-COMPETICOES-2026\06 - 03 08 a 08 08\PROJETO-EXPERIENCIA-VIVA\BackEnd>npm init
+This utility will walk you through creating a package.json file.
+It only covers the most common items, and tries to guess sensible defaults.
+
+See `npm help init` for definitive documentation on these fields and exactly what they do.
+
+Use `npm install <pkg>` afterwards to install a package and save it as a dependency in the package.json file.
+
+Press ^C at any time to quit.
+package name: (backend) experiencia_viva_api
+version: (1.0.0)
+description:
+entry point: (index.js)
+test command:
+git repository:
+keywords:
+author:
+license: (ISC)
+type: (commonjs)
+About to write to C:\Users\11204\Desktop\Clayton\SENAC-COMPETICOES-2026\06 - 03 08 a 08 08\PROJETO-EXPERIENCIA-VIVA\BackEnd\package.json:
+
+{
+  "name": "experiencia_viva_api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}
+
+
+Is this OK? (yes)
+npm warn init canceled
+npm notice
+npm notice New major version of npm available! 11.16.0 -> 12.0.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.0.2
+npm notice To update run: npm install -g npm@12.0.2
+npm notice
+
+C:\Users\11204\Desktop\Clayton\SENAC-COMPETICOES-2026\06 - 03 08 a 08 08\PROJETO-EXPERIENCIA-VIVA\BackEnd>
+
+C:\Users\11204\Desktop\Clayton\SENAC-COMPETICOES-2026\06 - 03 08 a 08 08\PROJETO-EXPERIENCIA-VIVA\BackEnd>
+
+C:\Users\11204\Desktop\Clayton\SENAC-COMPETICOES-2026\06 - 03 08 a 08 08\PROJETO-EXPERIENCIA-VIVA\BackEnd>npm init
+This utility will walk you through creating a package.json file.
+It only covers the most common items, and tries to guess sensible defaults.
+
+See `npm help init` for definitive documentation on these fields and exactly what they do.
+
+Use `npm install <pkg>` afterwards to install a package and save it as a dependency in the package.json file.
+
+Press ^C at any time to quit.
+package name: (backend) experiencia_viva_api
+version: (1.0.0)
+description:
+entry point: (index.js)
+test command:
+git repository:
+keywords:
+author:
+license: (ISC)
+type: (commonjs) module
+About to write to C:\Users\11204\Desktop\Clayton\SENAC-COMPETICOES-2026\06 - 03 08 a 08 08\PROJETO-EXPERIENCIA-VIVA\BackEnd\package.json:
+
+{
+  "name": "experiencia_viva_api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "type": "module"
+}
+
+
+Is this OK? (yes) yes
+
+C:\Users\11204\Desktop\Clayton\SENAC-COMPETICOES-2026\06 - 03 08 a 08 08\PROJETO-EXPERIENCIA-VIVA\BackEnd>code .
+
+C:\Users\11204\Desktop\Clayton\SENAC-COMPETICOES-2026\06 - 03 08 a 08 08\PROJETO-EXPERIENCIA-VIVA\BackEnd>npm i express prisma @prisma/client dotenv
+
+added 202 packages, and audited 203 packages in 18s
+
+40 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+npm warn allow-scripts 2 packages have install scripts not yet covered by allowScripts:
+npm warn allow-scripts   prisma@7.9.1 (preinstall: node scripts/preinstall-entry.js)
+npm warn allow-scripts   @prisma/engines@7.9.1 (postinstall: node scripts/postinstall.js)
+npm warn allow-scripts
+npm warn allow-scripts Run `npm approve-scripts --allow-scripts-pending` to review, or `npm approve-scripts <pkg>` to allow.
+
+C:\Users\11204\Desktop\Clayton\SENAC-COMPETICOES-2026\06 - 03 08 a 08 08\PROJETO-EXPERIENCIA-VIVA\BackEnd>npx prisma --init database-source mysql
+
+! unknown or unexpected option: --init
+
+    Prisma is a modern DB toolkit to query, migrate and model your database (https://prisma.io)
+
+    Usage
+
+      $ prisma [command]
+
+    Commands
+
+                init   Set up Prisma for your app
+           bootstrap   Bootstrap a Prisma Postgres project
+                 dev   Start a local Prisma Postgres server for development
+            generate   Generate artifacts (e.g. Prisma Client)
+                  db   Manage your database schema and lifecycle
+             migrate   Migrate your database
+              studio   Browse your data with Prisma Studio
+            validate   Validate your Prisma schema
+              format   Format your Prisma schema
+             version   Displays Prisma version info
+               debug   Displays Prisma debug info
+            platform   Prisma Data Platform commands
+            postgres   Manage Prisma Postgres databases
+                 mcp   Starts an MCP server to use with AI development tools
+            complete   Generate shell completion scripts
+
+    Flags
+
+         --preview-feature   Run Preview Prisma commands
+         --help, -h          Show additional information about a command
+
+┌───────────────────────────────────────────────────────────────────────────────────────┐
+│  Optimize performance through connection pooling and caching with Prisma Accelerate.  │
+│  Learn more at https://pris.ly/cli/pdp                                                │
+└───────────────────────────────────────────────────────────────────────────────────────┘
+
+    Examples
+
+      Set up a new local Prisma Postgres `prisma dev`-ready project
+      $ prisma init
+
+      Start a local Prisma Postgres server for development
+      $ prisma dev
+
+      Generate artifacts (e.g. Prisma Client)
+      $ prisma generate
+
+      Browse your data
+      $ prisma studio
+
+      Create migrations from your Prisma schema, apply them to the database, generate artifacts (e.g. Prisma Client)
+      $ prisma migrate dev
+
+      Pull the schema from an existing database, updating the Prisma schema
+      $ prisma db pull
+
+      Push the Prisma schema state to the database
+      $ prisma db push
+
+      Validate your Prisma schema
+      $ prisma validate
+
+      Format your Prisma schema
+      $ prisma format
+
+      Display Prisma version info
+      $ prisma version
+
+      Display Prisma debug info
+      $ prisma debug
+
+
+C:\Users\11204\Desktop\Clayton\SENAC-COMPETICOES-2026\06 - 03 08 a 08 08\PROJETO-EXPERIENCIA-VIVA\BackEnd>npx prisma init --database-source mysql
+
+Set up a new Prisma project
+
+Usage
+
+  $ prisma init [options]
+
+Options
+
+           -h, --help   Display this help message
+                 --db   Provisions a fully managed Prisma Postgres database on the Prisma Data Platform.
+--datasource-provider   Define the datasource provider to use: postgresql, mysql, sqlite, sqlserver, mongodb or cockroachdb
+ --generator-provider   Define the generator provider to use. Default: `prisma-client`
+    --preview-feature   Define a preview feature to use.
+             --output   Define Prisma Client generator output path to use.
+                --url   Define a custom datasource url
+
+Flags
+
+         --with-model   Add example model to created schema file
+          --no-skills   Skip installing Prisma agent skills
+
+Examples
+
+Set up a new `prisma dev`-ready (local Prisma Postgres) Prisma project
+  $ prisma init
+
+Set up a new Prisma project and specify MySQL as the datasource provider to use
+  $ prisma init --datasource-provider mysql
+
+Set up a new `prisma dev`-ready (local Prisma Postgres) Prisma project and specify `prisma-client` as the generator provider to use
+  $ prisma init --generator-provider prisma-client
+
+Set up a new `prisma dev`-ready (local Prisma Postgres) Prisma project and specify `x` and `y` as the preview features to use
+  $ prisma init --preview-feature x --preview-feature y
+
+Set up a new `prisma dev`-ready (local Prisma Postgres) Prisma project and specify `./generated-client` as the output path to use
+  $ prisma init --output ./generated-client
+
+Set up a new Prisma project and specify the url that will be used
+  $ prisma init --url mysql://user:password@localhost:3306/mydb
+
+Set up a new `prisma dev`-ready (local Prisma Postgres) Prisma project with an example model
+  $ prisma init --with-model
+
+
+C:\Users\11204\Desktop\Clayton\SENAC-COMPETICOES-2026\06 - 03 08 a 08 08\PROJETO-EXPERIENCIA-VIVA\BackEnd>npx prisma init --datasource-provider mysql
+√ Skills installed
+
+Initialized Prisma in your project
+
+  prisma/
+    schema.prisma
+  prisma.config.ts
+  .env
+  .gitignore
+  .claude/skills/
+  .windsurf/skills/
+  .agents/skills/
+  skills-lock.json
+
+Next, set up your database:
+  1. Configure your DATABASE_URL in prisma.config.ts
+  2. Run prisma db pull to introspect your database.
+
+Then, define your models in prisma/schema.prisma and run prisma migrate dev to apply your schema.
+
+Learn more: https://pris.ly/getting-started
+
+
+C:\Users\11204\Desktop\Clayton\SENAC-COMPETICOES-2026\06 - 03 08 a 08 08\PROJETO-EXPERIENCIA-VIVA\BackEnd>npx prisma db pull
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma\schema.prisma.
+Datasource "db": MySQL database "db_experiencia_viva" at "localhost:3306"
+
+√ Introspected 5 models and wrote them into prisma\schema.prisma in 220ms
+
+Run prisma generate to generate Prisma Client.
+
+
+C:\Users\11204\Desktop\Clayton\SENAC-COMPETICOES-2026\06 - 03 08 a 08 08\PROJETO-EXPERIENCIA-VIVA\BackEnd>npx prisma db pull
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma\schema.prisma.
+Datasource "db": MySQL database "db_experiencia_viva" at "localhost:3306"
+
+√ Introspected 5 models and wrote them into prisma\schema.prisma in 94ms
+
+Run prisma generate to generate Prisma Client.
+
+
+C:\Users\11204\Desktop\Clayton\SENAC-COMPETICOES-2026\06 - 03 08 a 08 08\PROJETO-EXPERIENCIA-VIVA\BackEnd>npx prisma generate
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma\schema.prisma.
+
+✔ Generated Prisma Client (v7.9.1) to .\generated\prisma in 67ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+
+C:\Users\11204\Desktop\Clayton\SENAC-COMPETICOES-2026\06 - 03 08 a 08 08\PROJETO-EXPERIENCIA-VIVA\BackEnd>npx prisma generate
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma\schema.prisma.
+
+✔ Generated Prisma Client (v7.9.1) to .\src\generated\prisma in 64ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+
+C:\Users\11204\Desktop\Clayton\SENAC-COMPETICOES-2026\06 - 03 08 a 08 08\PROJETO-EXPERIENCIA-VIVA\BackEnd>npm i @prisma/adapter-mariadb
+
+added 7 packages, and audited 210 packages in 3s
+
+40 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+npm warn allow-scripts 2 packages have install scripts not yet covered by allowScripts:
+npm warn allow-scripts   @prisma/engines@7.9.1 (install: (install scripts present))
+npm warn allow-scripts   prisma@7.9.1 (install: (install scripts present))
+npm warn allow-scripts
+npm warn allow-scripts Run `npm approve-scripts --allow-scripts-pending` to review, or `npm approve-scripts <pkg>` to allow.
+
+C:\Users\11204\Desktop\Clayton\SENAC-COMPETICOES-2026\06 - 03 08 a 08 08\PROJETO-EXPERIENCIA-VIVA\BackEnd>npx prisma db push
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma\schema.prisma.
+Datasource "db": MySQL database "db_experiencia_viva" at "localhost:3306"
+
+Your database is now in sync with your Prisma schema. Done in 91ms
+
+
+C:\Users\11204\Desktop\Clayton\SENAC-COMPETICOES-2026\06 - 03 08 a 08 08\PROJETO-EXPERIENCIA-VIVA\BackEnd>npx prisma generate
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma\schema.prisma.
+
+✔ Generated Prisma Client (v7.9.1) to .\src\generated\prisma in 80ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+
+
+C:\Users\11204\Desktop\Clayton\SENAC-COMPETICOES-2026\06 - 03 08 a 08 08\PROJETO-EXPERIENCIA-VIVA\BackEnd>
