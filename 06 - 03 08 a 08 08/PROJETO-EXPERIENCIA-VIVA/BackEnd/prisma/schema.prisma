@@ -1,0 +1,69 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model categoria {
+  id        String    @id @default(dbgenerated("(uuid())")) @db.Char(36)
+  ativo Boolean @default(true)
+  nome      String    @db.VarChar(50)
+  createdAt DateTime? @default(now()) @db.DateTime(0)
+  updatedAt DateTime? @default(now()) @db.DateTime(0)
+  evento    evento[]
+}
+
+model evento {
+  id               String             @id @default(dbgenerated("(uuid())")) @db.Char(36)
+  nome             String             @db.VarChar(50)
+  dataEvento       DateTime           @db.DateTime(0)
+  vagas            Int                @default(0)
+  idCategoria      String             @db.Char(36)
+  createdAt        DateTime?          @default(now()) @db.DateTime(0)
+  updatedAt        DateTime?          @default(now()) @db.DateTime(0)
+  ativo            Boolean?           @default(true)
+  categoria        categoria          @relation(fields: [idCategoria], references: [id], onUpdate: Restrict, map: "evento_ibfk_1")
+  inscricao_evento inscricao_evento[]
+
+  @@index([idCategoria], map: "idCategoria")
+}
+
+model historico_participante {
+  id             Int          @id @default(autoincrement())
+  email          String       @db.VarChar(200)
+  idParticipante String       @db.Char(36)
+  createdAt      DateTime?    @default(now()) @db.DateTime(0)
+  updatedAt      DateTime?    @default(now()) @db.DateTime(0)
+  participante   participante @relation(fields: [idParticipante], references: [id], onUpdate: Restrict, map: "historico_participante_ibfk_1")
+
+  @@index([idParticipante], map: "idParticipante")
+}
+
+model inscricao_evento {
+  id             String       @id @default(dbgenerated("(uuid())")) @db.Char(36)
+  idEvento       String       @db.Char(36)
+  idParticipante String       @db.Char(36)
+  ativo          Boolean      @default(true)
+  createdAt      DateTime?    @default(now()) @db.DateTime(0)
+  updatedAt      DateTime?    @default(now()) @db.DateTime(0)
+  evento         evento       @relation(fields: [idEvento], references: [id], onUpdate: Restrict, map: "inscricao_evento_ibfk_1")
+  participante   participante @relation(fields: [idParticipante], references: [id], onUpdate: Restrict, map: "inscricao_evento_ibfk_2")
+
+  @@unique([idEvento, idParticipante], map: "uk_campos_unicos")
+  @@index([idParticipante], map: "idParticipante")
+}
+
+model participante {
+  id                     String                   @id @default(dbgenerated("(uuid())")) @db.Char(36)
+  nome                   String                   @db.VarChar(50)
+  email                  String                   @unique(map: "email") @db.VarChar(200)
+  telefone               String                   @db.Char(11)
+  createdAt              DateTime?                @default(now()) @db.DateTime(0)
+  updatedAt              DateTime?                @default(now()) @db.DateTime(0)
+  ativo                  Boolean                  @default(true)
+  historico_participante historico_participante[]
+  inscricao_evento       inscricao_evento[]
+}
