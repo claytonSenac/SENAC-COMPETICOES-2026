@@ -59,7 +59,18 @@ async function editarEvento(req,res){
     }
 }
 
+async function listarProximos(req,res){
+    try {
+        const data = await eventoService.listarProximos();
+        res.status(data.code).json(data);
+    } catch (error) {
+        console.log(error)
+        res.status(500).json(error);
+    }
+}
+
 router.get('/',listarEventos);
+router.get('/proximos',listarProximos);
 router.get('/:id',listarEventoPorId);
 router.post('/',criarEvento);
 router.put('/:id',editarEvento);

@@ -72,7 +72,10 @@ async function listarEventos(){
     try {
         const data = await db.evento.findMany({
             where:{
-                ativo: true
+                ativo: true,
+                categoria:{
+                    ativo:true
+                }
             }
         })
         
@@ -93,10 +96,13 @@ async function listarEventoPorId(id){
     try {
         const data = await db.evento.findUnique({
             where:{
-                ativo: true,
                 id: id
             }
-        })
+        });
+
+        if(data?.ativo == false){
+            return {code:400, text: "Evento desativado"}
+        }
         
         return {code: 200, text: "sucesso", data:data};
     } catch (error) {
@@ -109,6 +115,34 @@ async function listarEventoPorId(id){
     }
 }
 
+async function listarProximos(){
+    try {
+        const data = await db.evento.findMany({
+            where:{
+                ativo: true,
+                categoria:{
+                    ativo:true
+                }
+            },
+            include:{
+                categoria: true
+            },  
+            take:4,
+            orderBy:{
+                dataEvento:'desc'
+            }
+        })
+        
+        return {code: 200, text: "sucesso", data:data};
+    } catch (error) {
+        console.log(error);
+        if(error?.PrismaClientKnownRequestError){
+            return {code:500,text:error?.PrismaClientKnownRequestError?.message}
+        }else{
+            return {code:500}
+        }
+}
+}
 async function excluirEvento(id){
     if(!id)  return {code:400, text: "sem campo [id]"}
 
@@ -138,5 +172,6 @@ export const eventoService = {
     editarEvento,
     listarEventos,
     listarEventoPorId,
-    excluirEvento
+    excluirEvento,
+    listarProximos
 }
