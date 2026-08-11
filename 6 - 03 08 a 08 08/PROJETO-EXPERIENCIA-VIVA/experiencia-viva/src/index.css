@@ -5,3 +5,14 @@
   --color-secondary: #ad84f0;
   --color-accent: #ba4de9;
 }
+
+input:disabled{
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+table,thead,th,tr,td{
+  border: 1px solid black;
+  padding: 8px;
+  border-collapse: collapse;
+}

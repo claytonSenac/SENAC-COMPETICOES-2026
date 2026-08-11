@@ -52,7 +52,11 @@ async function editarCategoria(id,c){
 
 async function listarCategorias(){
     try {
-        const res = await db.categoria.findMany();
+        const res = await db.categoria.findMany({
+            where:{
+                ativo:true
+            }
+        });
         return {code:200, text:"sucesso", data: res}
     } catch (error) {
         console.log(error);
@@ -71,7 +75,8 @@ async function listarCategoriasPorId(id){
     try {
         const res = await db.categoria.findUnique({
             where:{
-                id: id
+                id: id,
+                ativo:true
             }
         });
         return {code:200, text:"sucesso", data: res}

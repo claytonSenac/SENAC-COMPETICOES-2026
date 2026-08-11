@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Outlet } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function Layout(){
     const [open,setOpen] = useState(false);
@@ -16,9 +17,10 @@ export default function Layout(){
                     }} >X</button>
                 </div>
                 <div className="flex flex-col gap-4 items-center">
-                    <LinkItem  text={"Home"} open={open} icon={'bi-info-circle'}/>                 
-                    <LinkItem  text={"Sobre"} open={open} icon={'bi-info-circle'}/>
-                    <LinkItem  text={"Categoria"} open={open} icon={'bi-info-circle'}/>
+                    <LinkItem   goTo={'/'} text={"Home"} open={open} icon={'bi-info-circle'}/>                 
+                    <LinkItem  goTo={'/Participante'}  text={"Participante"} open={open} icon={'bi-info-circle'}/>
+                    <LinkItem  goTo={'/categorias'} text={"Categoria"} open={open} icon={'bi-info-circle'}/>
+                    <LinkItem  goTo={'/Evento'} text={"Evento"} open={open} icon={'bi-info-circle'}/>
                 </div>
             </div>
             <Outlet />
@@ -29,10 +31,14 @@ export default function Layout(){
 }
 
 
-function LinkItem({text,linkTo,open,icon}){
+function LinkItem({text,linkTo,open,icon,goTo}){
+    const navigate = useNavigate();
+
     return(
-        <li className="list-none text-white text-2xl hover:text-accent cursor-pointer font-semibold flex items-center gap-4">
-            <i class={"bi"+icon ? icon : null}></i>
+        <li onClick={() => {
+          navigate(goTo ? goTo: null)
+        }} className="list-none text-white text-2xl hover:text-accent cursor-pointer font-semibold flex items-center gap-4">
+            <i className={"bi"+icon ? icon : null}></i>
             <p className={open ? "" : "hidden"}>{text}</p>
         </li>
     )
