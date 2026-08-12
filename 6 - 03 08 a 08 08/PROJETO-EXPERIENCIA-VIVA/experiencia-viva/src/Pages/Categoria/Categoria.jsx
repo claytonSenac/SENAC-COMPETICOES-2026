@@ -67,6 +67,24 @@ export default function Categoria(){
         setCategoryToCreate(null);
     }
 
+    const columns = [
+        {
+            label: "id",
+            nome: "Id"
+        },
+        {
+            label: "nome",
+            nome: "Nome"
+        }
+    ]
+
+    const data = [
+        {
+            id: "123",
+            nome: "teste"
+        }
+    ]
+
     return (
         <>
             <div className="w-full flex flex-col items-center gap-8 h-full justify-center">
@@ -82,7 +100,8 @@ export default function Categoria(){
                             <i className="bi bi-plus-square-fill"></i>
                         </button>
                     </div>
-                    <table className="w-3xl rounded  gap-4 p-2 border-colapse">
+
+                    <table className=" w-3xl rounded  gap-4 p-2 border-colapse">
                        <thead className="bg-gray-200 rounded">
                             <tr>
                                 <th className="border text-left border-colapse p-2">Id</th>
@@ -182,6 +201,35 @@ export default function Categoria(){
                   handleDeleteCategory()
                 }}
             />
+        </>
+    )
+}
+
+export function Grid({columns,data}){
+    console.log(data)
+    return (
+        <>
+            <div className="flex w-full">
+                <table>
+                    <thead>
+                        <tr>
+                            { columns.map((c)=>(
+                                <th key={c.nome}>{c.label}</th>
+                            ))}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {data.map((d,i)=>(
+                            <tr>
+                                {Object.entries(d).map((key,value)=>{
+                                    console.log(key[0])
+                                   return( <td key={key[1]}>{key[1]}</td>)
+                                })}
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </>
     )
 }

@@ -23,3 +23,18 @@ export async function update(){
 
 }
 
+export async function inscreverEvento(idParticipante,idEvento){
+    const res = await fetch(apiUrl + "/api/evento/inscrever/",{
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            idParticipante: idParticipante,
+            idEvento: idEvento
+        })
+    })
+
+    return res
+}
+

@@ -167,11 +167,64 @@ async function excluirEvento(id){
     }
 }
 
+async function inscreverEvento(idParticipante,idEvento){
+    if(!idParticipante || !idEvento) return {code: 400, text: "Faltam dados"};
+
+    try {
+        const data = await db.inscricao_evento.create({
+            data:{
+               idEvento: idEvento,
+               idParticipante: idParticipante
+            }
+        })
+        
+        return {code: 201, text: "criado", data:data};
+    } catch (error) {
+        console.log(error);
+        if(error?.PrismaClientValidationError){
+            return {code:500,text:error?.PrismaClientValidationError?.message}
+        }else{
+            return {code:500}
+        }
+    }
+}
+
+async function cancelarInscricao(idParticipante,idEvento){
+    if(!idParticipante || !idEvento) return {code: 400, text: "Faltam dados"};
+
+    try {
+        const data = await db.inscricao_evento.update({
+            data:{
+               ativo: false
+            },
+            where:{
+                idParticipante: idParticipante,
+                idEvento: idEvento
+            }
+        })
+        
+        return {code: 201, text: "criado", data:data};
+    } catch (error) {
+        console.log(error);
+        if(error?.PrismaClientValidationError){
+            return {code:500,text:error?.PrismaClientValidationError?.message}
+        }else{
+            return {code:500}
+        }
+    }
+}
+
+async function buscarEventosEParticipantes(){
+    
+}
+
 export const eventoService = {
     criarEvento,
     editarEvento,
     listarEventos,
     listarEventoPorId,
     excluirEvento,
-    listarProximos
+    listarProximos,
+    cancelarInscricao,
+    inscreverEvento
 }

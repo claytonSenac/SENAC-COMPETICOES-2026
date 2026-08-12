@@ -1,208 +1,392 @@
 import { useEffect, useState } from "react";
-import { create, deleteEvento, getEventos, update } from "../../Services/EventoService";
+import {
+    create,
+    deleteEvento,
+    getEventos,
+    update
+} from "../../Services/EventoService";
 import ConfirmModal from "../../Services/Utils/ConfirmModal";
 
-export default function Evento(){
-    const [Eventos, setEventos]= useState([]);
+export default function Evento() {
+    const [Eventos, setEventos] = useState([]);
     const [idToDelete, setIdToDelete] = useState(null);
     const [creatingMode, setCreatingMode] = useState(true);
-    const [formOpen,setFormOpen] = useState(false);
-    const [initialData, setInitialData] = useState(null)
+    const [formOpen, setFormOpen] = useState(false);
+    const [initialData, setInitialData] = useState(null);
 
     useEffect(() => {
-        const loadData = async ()=>{
-            const response = await getEventos();
+        loadEventos();
+    }, []);
 
-            if(response.ok){
-                const data = await response.json();
+    async function loadEventos() {
+        const response = await getEventos();
 
-                setEventos([...data.data]);
-            }
-        }
-        loadData();
-    },[])
-    
-    async function handleCreateEvento(e){
-        let res = null;
-        if(creatingMode){
-            res = await create(e);
-        }else{
-            res = await update(e); 
-        }
-        
-        if(res.ok){
-            alert('criado');
-            setFormOpen(false);
-            setInitialData(null)
-
-            const response = await getEventos();
-
-            if(response.ok){
-                const data = await response.json();
-
-                setEventos([...data.data]);
-            }
-        }else{
-            const data = await res.json();
-            alert(data.text);
-
+        if (response.ok) {
+            const data = await response.json();
+            setEventos(data.data ?? []);
         }
     }
 
-    async function handleDeleteEvento(id){
+    async function handleCreateEvento(e) {
+        let res;
+
+        if (creatingMode) {
+            res = await create(e);
+        } else {
+            res = await update(e);
+        }
+
+        if (res.ok) {
+            alert(creatingMode ? "Evento criado!" : "Evento atualizado!");
+
+            setFormOpen(false);
+            setInitialData(null);
+
+            await loadEventos();
+        } else {
+            const data = await res.json();
+            alert(data.text ?? "Ocorreu um erro.");
+        }
+    }
+
+    async function handleDeleteEvento(id) {
         const res = await deleteEvento(id);
 
-        if(res.ok){
-            alert('excluido');
-             const response = await getEventos();
-             setIdToDelete(null)
+        if (res.ok) {
+            alert("Evento excluído!");
 
-            if(response.ok){
-                const data = await response.json();
+            setIdToDelete(null);
 
-                setEventos([...data.data]);
-            }
-
+            await loadEventos();
+        } else {
+            alert("Não foi possível excluir o evento.");
         }
+    }
+
+    function handleOpenCreate() {
+        setInitialData(null);
+        setCreatingMode(true);
+        setFormOpen(true);
+    }
+
+    function handleOpenEdit(evento) {
+        setInitialData(evento);
+        setCreatingMode(false);
+        setFormOpen(true);
     }
 
     return (
         <>
-            <div className="w-full p-8 flex flex-col gap-4 items-center  " >
-                <h1 className="text-3xl">Gerenciamento de Eventos</h1>
-                <div className="w-full max-w-225 p-4 flex items-end flex-col justify-center">
+            <div className="w-full p-8 flex flex-col gap-4 items-center">
+                <h1 className="text-3xl font-semibold">
+                    Gerenciamento de Eventos
+                </h1>
+
+                <div className="w-full max-w-225 p-4 flex flex-col">
                     <div className="flex justify-end p-4">
-                        <button className="text-3xl text-primary cursor-pointer" onClick={() => {
-                            setFormOpen(true)
-                            setCreatingMode(true);
-                            setInitialData(null)
-                        }}>
+                        <button
+                            type="button"
+                            className="text-3xl text-primary cursor-pointer"
+                            onClick={handleOpenCreate}
+                        >
                             <i className="bi bi-plus-square-fill p-4"></i>
                         </button>
                     </div>
-                    <table>
-                        <thead className="bg-gray-200">
-                            <tr>
-                                <td>Id</td>
-                                <td>Nome</td>
-                                <td>Email</td>
-                                <td>Telefone</td>
-                                <td>Ações</td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {Eventos.map((p)=>(
-                                <tr key={p.id}>
-                                    <td>{p.id}</td>
-                                    <td>{p.nome}</td>
-                                    <td>{p.email}</td>
-                                    <td>{p.telefone}</td>
-                                    <td className="flex gap-2">
-                                        <button className="p-2 rounded bg-primary text-white cursor-pointer" onClick={() => {
-                                          setFormOpen(true);
-                                          setInitialData(p);
-                                          setCreatingMode(false)
-                                        }}>
-                                            <i className="bi bi-pencil-fill"></i>                                        
-                                        </button>
-                                        <button className="p-2 rounded bg-red-400 text-white cursor-pointer" onClick={() => {
-                                            setIdToDelete(p.id)
-                                        }}>
-                                            <i className="bi bi-trash-fill"></i>                                        
-                                        </button>
-                                    </td>
+
+                    <div className="overflow-x-auto">
+                        <table className="w-full border-collapse">
+                            <thead className="bg-gray-200">
+                                <tr>
+                                    <th className="p-3 text-left">Id</th>
+                                    <th className="p-3 text-left">Nome</th>
+                                    <th className="p-3 text-left">Data</th>
+                                    <th className="p-3 text-left">Vagas</th>
+                                    <th className="p-3 text-left">Ações</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </thead>
+
+                            <tbody>
+                                {Eventos.length > 0 ? (
+                                    Eventos.map((evento) => (
+                                        <tr
+                                            key={evento.id}
+                                            className="border-b hover:bg-gray-50"
+                                        >
+                                            <td className="p-3">
+                                                {evento.id}
+                                            </td>
+
+                                            <td className="p-3">
+                                                {evento.nome}
+                                            </td>
+
+                                            <td className="p-3">
+                                                {formatarData(
+                                                    evento.dataEvento
+                                                )}
+                                            </td>
+
+                                            <td className="p-3">
+                                                {evento.vagas}
+                                            </td>
+
+                                            <td className="p-3">
+                                                <div className="flex gap-2">
+                                                    <button
+                                                        type="button"
+                                                        className="p-2 rounded bg-primary text-white cursor-pointer"
+                                                        onClick={() =>
+                                                            handleOpenEdit(
+                                                                evento
+                                                            )
+                                                        }
+                                                    >
+                                                        <i className="bi bi-pencil-fill"></i>
+                                                    </button>
+
+                                                    <button
+                                                        type="button"
+                                                        className="p-2 rounded bg-red-400 text-white cursor-pointer"
+                                                        onClick={() =>
+                                                            setIdToDelete(
+                                                                evento.id
+                                                            )
+                                                        }
+                                                    >
+                                                        <i className="bi bi-trash-fill"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td
+                                            colSpan="5"
+                                            className="text-center p-6 text-gray-500"
+                                        >
+                                            Nenhum evento cadastrado.
+                                        </td>
+                                    </tr>
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-            
+
             {formOpen && (
-                <FormEvento 
-                open={formOpen}
-                creatingMode={creatingMode}
-                initialData={initialData}
-                onCancel={() => {
-                  setFormOpen(false)
-                }}
-                onSave={async (e) => {
-                    console.log(e)
-                     await handleCreateEvento(e)
-                }}
-            />
+                <FormEvento
+                    open={formOpen}
+                    creatingMode={creatingMode}
+                    initialData={initialData}
+                    onCancel={() => {
+                        setFormOpen(false);
+                        setInitialData(null);
+                    }}
+                    onSave={handleCreateEvento}
+                />
             )}
 
-            <ConfirmModal 
-                open={idToDelete}
+            <ConfirmModal
+                open={idToDelete !== null}
                 onCancel={() => {
-                  setIdToDelete(null);
+                    setIdToDelete(null);
                 }}
-                onConfirm={
-                    async () => {
-                        await handleDeleteEvento(idToDelete)
-                    }
-                }
+                onConfirm={async () => {
+                    await handleDeleteEvento(idToDelete);
+                }}
             />
         </>
-    )
+    );
+}
+
+
+function formatarData(data) {
+    if (!data) return "-";
+
+    const date = new Date(data);
+
+    if (Number.isNaN(date.getTime())) {
+        return "-";
+    }
+
+    return date.toLocaleString("pt-BR", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit"
+    });
+}
+
+function formatarParaInput(data) {
+    if (!data) return "";
+
+    const date = new Date(data);
+
+    if (Number.isNaN(date.getTime())) {
+        return "";
+    }
+
+    const ano = date.getFullYear();
+    const mes = String(date.getMonth() + 1).padStart(2, "0");
+    const dia = String(date.getDate()).padStart(2, "0");
+    const hora = String(date.getHours()).padStart(2, "0");
+    const minuto = String(date.getMinutes()).padStart(2, "0");
+
+    return `${ano}-${mes}-${dia}T${hora}:${minuto}`;
 }
 
 function FormEvento({
-        open,
-        creatingMode,
-        initialData,
-        onSave,
-        onCancel
-    }){
-    if(!open) return null;
+    open,
+    creatingMode,
+    initialData,
+    onSave,
+    onCancel
+}) {
+    const [formData, setFormData] = useState({
+        id: null,
+        nome: "",
+        dataEvento: "",
+        vagas: ""
+    });
 
-    const [formData, setFormData] = useState({ nome: "", email: "", telefone: "" }); 
+    useEffect(() => {
+        if (initialData) {
+            setFormData({
+                id: initialData.id ?? null,
+                nome: initialData.nome ?? "",
+                dataEvento: formatarParaInput(
+                    initialData.dataEvento
+                ),
+                vagas: initialData.vagas ?? ""
+            });
+        } else {
+            setFormData({
+                id: null,
+                nome: "",
+                dataEvento: "",
+                vagas: ""
+            });
+        }
+    }, [initialData]);
 
-    useEffect(() => { setFormData(initialData ?? { nome: "", email: "", telefone: "" }); }, [initialData]);
+    if (!open) return null;
 
-    function handleInputChange(e){
-        if(!e.target.name) return;
-        let name = e.target.name;
-        let value = e.target.value;
-        setFormData((prev)=>({
+    function handleInputChange(e) {
+        const { name, value } = e.target;
+
+        setFormData((prev) => ({
             ...prev,
             [name]: value
         }));
-        console.log(formData)
+    }
+
+    function handleSubmit(e) {
+        e.preventDefault();
+
+        if (!formData.nome.trim()) {
+            alert("Informe o nome do evento.");
+            return;
+        }
+
+        if (!formData.dataEvento) {
+            alert("Informe a data do evento.");
+            return;
+        }
+
+        if (!formData.vagas || Number(formData.vagas) <= 0) {
+            alert("Informe uma quantidade válida de vagas.");
+            return;
+        }
+
+        const evento = {
+            ...formData,
+            vagas: Number(formData.vagas),
+            dataEvento: new Date(formData.dataEvento).toISOString()
+        };
+
+        onSave(evento);
     }
 
     return (
-        <>
-            <div className="w-screen h-screen top-0 left-0 bg-black/40 fixed z-50 items-center justify-center flex flex-col">
-                <div className="p-4 flex flex-col gap-4 bg-white rounded">
-                   <h2 className="text-center text-2xl"> {creatingMode ? "Criar" : "Editar" }</h2>
-                   <form className="flex flex-col gap-4">
-                        <section className="flex gap-2 items-center justify-between">
-                            <label htmlFor="nome">Nome:</label>
-                            <input className="border rounded p-2" type="text" name="nome" value={formData.nome ?? ""} onChange={handleInputChange} />
-                        </section>
-                        <section className="flex gap-2 items-center justify-between">
-                            <label htmlFor="email">email:</label>
-                            <input className="border rounded p-2" type="text" name="email" id="email" value={formData.email ?? ""} onChange={handleInputChange} />
-                        </section>
-                        <section className="flex gap-2 items-center justify-between">
-                            <label htmlFor="telefone">telefone:</label>
-                            <input className="border rounded p-2" type="text" name="telefone" maxLength={11} id="telefone" value={formData.telefone ?? ""} onChange={handleInputChange} />
-                        </section>
-                        <section className="flex gap-4 items-center justify-center">
-                            <button className="bg-red-400 p-2 rounded  cursor-pointer" onClick={() => {
-                              onCancel()
-                            }}>Cancelar</button>
-                            <button className="bg-blue-400 p-2 rounded cursor-pointer"
-                            onClick={(e) => {
-                                e.preventDefault();
-                                onSave(formData)
-                            }}>{creatingMode ? "Criar" : "Editar" }</button>
-                        </section>
-                   </form>
-                </div>
+        <div className="w-screen h-screen top-0 left-0 bg-black/40 fixed z-50 flex items-center justify-center">
+            <div className="w-full max-w-md p-6 flex flex-col gap-5 bg-white rounded-lg shadow-lg">
+                <h2 className="text-center text-2xl font-semibold">
+                    {creatingMode ? "Criar Evento" : "Editar Evento"}
+                </h2>
+
+                <form
+                    className="flex flex-col gap-4"
+                    onSubmit={handleSubmit}
+                >
+                    <section className="flex flex-col gap-1">
+                        <label htmlFor="nome">
+                            Nome:
+                        </label>
+
+                        <input
+                            className="border rounded p-2 w-full"
+                            type="text"
+                            name="nome"
+                            id="nome"
+                            value={formData.nome}
+                            onChange={handleInputChange}
+                            placeholder="Nome do evento"
+                        />
+                    </section>
+
+                    <section className="flex flex-col gap-1">
+                        <label htmlFor="dataEvento">
+                            Data do evento:
+                        </label>
+
+                        <input
+                            className="border rounded p-2 w-full"
+                            type="datetime-local"
+                            name="dataEvento"
+                            id="dataEvento"
+                            value={formData.dataEvento}
+                            onChange={handleInputChange}
+                        />
+                    </section>
+
+                    <section className="flex flex-col gap-1">
+                        <label htmlFor="vagas">
+                            Vagas:
+                        </label>
+
+                        <input
+                            className="border rounded p-2 w-full"
+                            type="number"
+                            name="vagas"
+                            id="vagas"
+                            min="1"
+                            value={formData.vagas}
+                            onChange={handleInputChange}
+                            placeholder="Quantidade de vagas"
+                        />
+                    </section>
+
+                    <section className="flex gap-4 items-center justify-end pt-2">
+                        <button
+                            type="button"
+                            className="bg-red-400 text-white p-2 px-4 rounded cursor-pointer"
+                            onClick={onCancel}
+                        >
+                            Cancelar
+                        </button>
+
+                        <button
+                            type="submit"
+                            className="bg-blue-400 text-white p-2 px-4 rounded cursor-pointer"
+                        >
+                            {creatingMode ? "Criar" : "Editar"}
+                        </button>
+                    </section>
+                </form>
             </div>
-        </>
-    )
+        </div>
+    );
 }

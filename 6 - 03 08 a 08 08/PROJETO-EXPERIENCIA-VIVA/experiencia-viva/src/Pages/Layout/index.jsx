@@ -16,7 +16,7 @@ export default function Layout(){
                       setOpen(!open)
                     }} >X</button>
                 </div>
-                <div className="flex flex-col gap-4 items-center">
+                <div className="flex flex-col gap-4 items-left">
                     <LinkItem   goTo={'/'} text={"Home"} open={open} icon={'bi-info-circle'}/>                 
                     <LinkItem  goTo={'/Participante'}  text={"Participante"} open={open} icon={'bi-info-circle'}/>
                     <LinkItem  goTo={'/categorias'} text={"Categoria"} open={open} icon={'bi-info-circle'}/>
