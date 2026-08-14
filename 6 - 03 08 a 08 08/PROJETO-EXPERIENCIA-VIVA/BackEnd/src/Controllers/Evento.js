@@ -69,6 +69,17 @@ async function listarProximos(req,res){
     }
 }
 
+async function buscarEventosEParticipantes(req,res){
+    const {id} = req.params;
+    try {
+        const data = await eventoService.buscarEventosEParticipantes(id);
+        res.status(data.code).json(data);
+    } catch (error) {
+        console.log(error)
+        res.status(500).json(error);
+    }
+}
+
 async function inscreverEvento(req,res){
     try {
         const {idParticipante,idEvento} = req.body;
@@ -83,9 +94,9 @@ async function inscreverEvento(req,res){
 
 async function cancelarInscricao(req,res){
     try {
-        const {idParticipante,idEvento} = req.body;
+        const {idInscricao} = req.body;
 
-        const data = await eventoService.cancelarInscricao(idParticipante,idEvento);
+        const data = await eventoService.cancelarInscricao(idInscricao);
         res.status(data.code).json(data);
     } catch (error) {
         console.log(error)
@@ -96,6 +107,7 @@ async function cancelarInscricao(req,res){
 router.get('/',listarEventos);
 router.get('/proximos',listarProximos);
 router.get('/:id',listarEventoPorId);
+router.get('/inscricoes/:id',buscarEventosEParticipantes);
 router.post('/',criarEvento);
 router.post('/inscrever/',inscreverEvento);
 router.post('/cancelarInscricao/',cancelarInscricao);

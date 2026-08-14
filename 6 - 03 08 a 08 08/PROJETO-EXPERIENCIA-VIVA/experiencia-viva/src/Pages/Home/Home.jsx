@@ -2,10 +2,14 @@ import { useEffect, useState } from "react"
 import { getEventos, inscreverEvento, proximosEventos } from "../../Services/EventoService";
 import formatIso from "../../Services/Utils/formatarDateIso";
 import { getParticipantes } from "../../Services/ParticipanteService";
+import { useNavigate } from "react-router-dom";
 
 export default function Home(){
     const [nextEvents,setNextEvents] = useState([]);
-    const [modalInscrever,setModalInscrever] = useState(false)
+    const [modalInscrever,setModalInscrever] = useState(false);
+
+    const navigate = useNavigate();
+
     useEffect(() => {
         const loadData = async ()=>{
             const events = await proximosEventos();
@@ -19,36 +23,46 @@ export default function Home(){
     },[])
     return (
         <>
-            <div className="w-full mx-auto flex flex-col items-center justify-center gap-4 p-4 overflow-hidden">
+            <div className="w-full mx-auto flex flex-col items-center justify-center gap-4 p-4 overflow-hidden gradient">
                 <h1 className="text-3xl text-center">Experiencia Viva</h1>
-                <div className="lg:max-w-[80%] mx-auto bg-secondary flex flex-col p-8 rounded  items-center gap-4">
+                <div className="w-full mx-auto bg-secondary flex flex-col p-8 rounded shadow-xl items-center gap-4">
                     <h2 className="text-white text-2xl text-center">Proximos Eventos:</h2>
                     <div className="grid lg:grid-cols-4 lg:grid-rows-1 gap-4">
                         {nextEvents.map((e)=>(
-                                <li key={e.id} className="list-none bg-white p-4">
-                                   <h3 className="text-center font-medium">{e.nome ?? ""}</h3> 
+                                <li key={e.id} className="list-none bg-white rounded flex flex-col justify-between items-center p-4">
+                                   <h3 className="text-center text-xl font-medium">{e.nome ?? ""}</h3> 
                                    <p className="text-center">{e.vagas ?? ""} Vagas</p> 
                                    <p>{formatIso(e.dataEvento) ?? ""}</p> 
-                                    <hr className="mt-2"/> 
                                 </li>
                         ))}
                     </div>
+                    
                 </div>
+
+                <button onClick={() => {
+                  setModalInscrever(true)
+                }} className="bg-accent text-white p-2 rounded font-semibold cursor-pointer hover:bg-primary transition-all duration-300">
+                    Inscrever Participante</button>
+
                 <h2 className="text-center font-bold text-2xl">Gerenciamento</h2>
-                <div className="w-xl bg-primary text-white flex justify-between mx-auto gap-4 p-4 rounded">
-                    <li className="list-none font-semibold bg-accent p-4 gap-8 flex flex-col rounded cursor-pointer">
+                <div className=" bg-secondary text-white flex-wrap items-center justify-center flex-col flex lg:flex-row mx-auto gap-4 p-4 rounded">
+                    <li className="list-none font-semibold   text-center bg-white text-black hover:text-accent transition-all p-4 gap-8 flex flex-col rounded cursor-pointer" onClick={() => {
+                      navigate('/evento')
+                    }}>
                         <h2 className="text-2xl">Eventos</h2>
                     </li>
-                    <li className="list-none font-semibold bg-accent p-4 gap-8 flex flex-col rounded cursor-pointer">
+                    <li className="list-none font-semibold  text-center bg-white text-black hover:text-accent transition-all p-4 gap-8 flex flex-col rounded cursor-pointer" onClick={() => {
+                      navigate('/participante')
+                    }}>
                         <h2 className="text-2xl">Participantes</h2>
                     </li>
-                    <li className="list-none font-semibold bg-accent p-4 gap-8 flex flex-col rounded cursor-pointer">
+                    <li className="list-none font-semibold  text-center bg-white text-black hover:text-accent transition-all p-4 gap-8 flex flex-col rounded cursor-pointer" onClick={() => {
+                      navigate('/categorias')
+                    }}>
                         <h2 className="text-2xl">Categorias</h2>
                     </li>
                 </div>
-                <button onClick={() => {
-                  setModalInscrever(true)
-                }} className="bg-accent text-white p-2 rounded font-semibold cursor-pointer hover:bg-primary transition-all duration-300">Inscrever Participante</button>
+                
             </div>
 
             <ModalInscricaoEvento 

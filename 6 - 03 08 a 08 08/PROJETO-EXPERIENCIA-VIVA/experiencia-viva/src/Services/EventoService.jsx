@@ -10,18 +10,40 @@ export async function getEventos(){
     return data;
 }
 
-export async function create(){
+export async function create(e){
+    const res = await fetch(apiUrl + "/api/evento",{
+        headers: {
+            "Content-Type": "application/json"
+        },
+        method: "POST",
+        body: JSON.stringify({
+            "evento":e
+        })
+    })
+    return res;
+}
 
+export async function update(e){
+    const res = await fetch(apiUrl + "/api/evento/" + e.id,{
+        headers: {
+            "Content-Type": "application/json"
+        },
+        method: "PUT",
+        body: JSON.stringify({
+            "evento":e
+        })
+    })
+    return res;
 }
 
 
-export async function deleteEvento(){
-
+export async function deleteEvento(id){
+    const data = await fetch(apiUrl + "/api/evento/"+id,{
+        method: "DELETE"
+    });
+    return data;
 }
 
-export async function update(){
-
-}
 
 export async function inscreverEvento(idParticipante,idEvento){
     const res = await fetch(apiUrl + "/api/evento/inscrever/",{
@@ -38,3 +60,21 @@ export async function inscreverEvento(idParticipante,idEvento){
     return res
 }
 
+export async function getEventoEInscricoes(idEvento){
+    const res = await fetch(apiUrl + "/api/evento/inscricoes/"+idEvento);
+    return res;
+}
+
+export async function cancelarInscricao(idInscricao){
+    const res = await fetch(apiUrl + "/api/evento/cancelarInscricao",{
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            idInscricao: idInscricao
+        })
+    });
+
+    return res;
+}

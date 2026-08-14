@@ -7,7 +7,7 @@ export default function Layout(){
     return (
     <>
         <div 
-        className={`min-h-screen grid ${open ? 'grid-cols-[250px_auto]' : 'grid-cols-[80px_auto]'} gap-4 transition-all duration-300`}>
+        className={`min-h-screen grid ${open ? 'grid-cols-[250px_auto]' : 'grid-cols-[80px_auto]'}  transition-all duration-300`}>
             <div className="bg-primary flex flex-col items-center p-4 gap-4">
                 <div className="flex flex-col gap-4 text-white text-2xl font-semibold justify-center items-center">
                     <h1 className={open ? "" : "hidden"}>Experiencia Viva</h1>
@@ -17,10 +17,10 @@ export default function Layout(){
                     }} >X</button>
                 </div>
                 <div className="flex flex-col gap-4 items-left">
-                    <LinkItem   goTo={'/'} text={"Home"} open={open} icon={'bi-info-circle'}/>                 
-                    <LinkItem  goTo={'/Participante'}  text={"Participante"} open={open} icon={'bi-info-circle'}/>
-                    <LinkItem  goTo={'/categorias'} text={"Categoria"} open={open} icon={'bi-info-circle'}/>
-                    <LinkItem  goTo={'/Evento'} text={"Evento"} open={open} icon={'bi-info-circle'}/>
+                    <LinkItem  goTo={'/'} text={"Home"} open={open} icon={'bi-house-fill'}/>                 
+                    <LinkItem  goTo={'/Participante'}  text={"Participante"} open={open} icon={'bi-person-arms-up'}/>
+                    <LinkItem  goTo={'/categorias'} text={"Categoria"} open={open} icon={'bi-tags-fill'}/>
+                    <LinkItem  goTo={'/Evento'} text={"Evento"} open={open} icon={'bi-calendar-event'}/>
                 </div>
             </div>
             <Outlet />

@@ -1,13 +1,41 @@
 import { useEffect, useState } from "react";
 import { create, deleteParticipante, getParticipantes, update } from "../../Services/ParticipanteService";
 import ConfirmModal from "../../Services/Utils/ConfirmModal";
+import { formatarTelefone } from "../../Services/Utils/Formats";
+import Grid from "../../Components/Grid";
 
 export default function Participante(){
     const [participantes, setParticipantes]= useState([]);
     const [idToDelete, setIdToDelete] = useState(null);
     const [creatingMode, setCreatingMode] = useState(true);
     const [formOpen,setFormOpen] = useState(false);
-    const [initialData, setInitialData] = useState(null)
+    const [initialData, setInitialData] = useState(null);
+
+        const columns = [
+
+            {label: "Nome",value:"nome"},
+            {label: "Email",value:"email"},
+            {label: "Telefone",value:"telefone", render: (e) => formatarTelefone(e)}
+        ]
+    
+        const actions = (row) => {
+            return (
+            <div className="flex gap-2">
+                <button className="p-2 rounded bg-primary text-white cursor-pointer" onClick={() => {
+                    setFormOpen(true);
+                    setInitialData(row);
+                    setCreatingMode(false)
+                }}>
+                    <i className="bi bi-pencil-fill"></i>                                        
+                </button>
+                <button className="p-2 rounded bg-red-400 text-white cursor-pointer" onClick={() => {
+                    setIdToDelete(row.id)
+                }}>
+                    <i className="bi bi-trash-fill"></i>                                        
+                </button>
+            </div>
+            )
+        }
 
     useEffect(() => {
         const loadData = async ()=>{
@@ -68,53 +96,24 @@ export default function Participante(){
 
     return (
         <>
-            <div className="w-full p-8 flex flex-col gap-4 items-center  " >
+            <div className="w-full flex flex-col items-center  h-full justify-center" >
                 <h1 className="text-3xl">Gerenciamento de Participantes</h1>
-                <div className="w-full max-w-225 p-4 flex items-end flex-col justify-center">
-                    <div className="flex justify-end p-4">
-                        <button className="text-3xl text-primary cursor-pointer" onClick={() => {
+
+                <div>
+                    <div className="flex justify-end p-2">
+                        <button  onClick={() => {
                             setFormOpen(true)
                             setCreatingMode(true);
                             setInitialData(null)
-                        }}>
+                        }} className="p-2 rounded cursor-pointer text-primary text-4xl">
                             <i className="bi bi-plus-square-fill p-4"></i>
                         </button>
                     </div>
-                    <table>
-                        <thead className="bg-gray-200">
-                            <tr>
-                                <td>Id</td>
-                                <td>Nome</td>
-                                <td>Email</td>
-                                <td>Telefone</td>
-                                <td>Ações</td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {participantes.map((p)=>(
-                                <tr key={p.id}>
-                                    <td>{p.id}</td>
-                                    <td>{p.nome}</td>
-                                    <td>{p.email}</td>
-                                    <td>{p.telefone}</td>
-                                    <td className="flex gap-2">
-                                        <button className="p-2 rounded bg-primary text-white cursor-pointer" onClick={() => {
-                                          setFormOpen(true);
-                                          setInitialData(p);
-                                          setCreatingMode(false)
-                                        }}>
-                                            <i className="bi bi-pencil-fill"></i>                                        
-                                        </button>
-                                        <button className="p-2 rounded bg-red-400 text-white cursor-pointer" onClick={() => {
-                                            setIdToDelete(p.id)
-                                        }}>
-                                            <i className="bi bi-trash-fill"></i>                                        
-                                        </button>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                        <Grid 
+                            columns={columns}
+                            actions={actions}
+                            rows={participantes}
+                        />
                 </div>
             </div>
             

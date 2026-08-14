@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { createCategory, deleteCategory, getCategorias,updateCategory } from "../../Services/CategoriaService";
 import ConfirmModal from "../../Services/Utils/ConfirmModal";
+import Grid from "../../Components/Grid";
 
 export default function Categoria(){
     const [categorias,setCategorias] = useState([]);
@@ -68,73 +69,51 @@ export default function Categoria(){
     }
 
     const columns = [
-        {
-            label: "id",
-            nome: "Id"
-        },
-        {
-            label: "nome",
-            nome: "Nome"
-        }
-    ]
+        {label: "Id",value:"id"},
+        {label: "Nome",value:"nome"}]
 
-    const data = [
-        {
-            id: "123",
-            nome: "teste"
-        }
-    ]
+    const actions = (row) => {
+        return (
+            <div className="flex gap-4">
+                <li className="list-none p-2 bg-red-400 rounded cursor-pointer"
+                    onClick={() => {
+                        setCategoryToDelete(c.id)
+                    }}
+                >
+                    <i className="bi bi-trash-fill"></i>
+                </li>
+                <li className="list-none p-2 bg-blue-400 rounded cursor-pointer"                                                
+                    onClick={() => {
+                        setCategoryToEdit(c)
+                    }}
+                >
+                    <i className="bi bi-pencil-fill"></i>
+                </li>
+            </div>
+        )
+    }
 
     return (
         <>
-            <div className="w-full flex flex-col items-center gap-8 h-full justify-center">
+            <div className="w-full flex flex-col items-center  h-full justify-center">
                 <h1 className="text-2xl">Categorias</h1>
 
                 <div>
-                    <div className="flex justify-end p-4">
+                    <div className="flex justify-end p-2">
                         <button 
                             onClick={() => {
                               setCategoryToCreate(true)
                             }}
-                        className="p-2 rounded cursor-pointer text-primary text-3xl">
+                        className="p-2 rounded cursor-pointer text-primary text-4xl">
                             <i className="bi bi-plus-square-fill"></i>
                         </button>
                     </div>
 
-                    <table className=" w-3xl rounded  gap-4 p-2 border-colapse">
-                       <thead className="bg-gray-200 rounded">
-                            <tr>
-                                <th className="border text-left border-colapse p-2">Id</th>
-                                <th className="border text-left border-colapse p-2">Nome</th>
-                                <th className="border text-left border-colapse p-2">Ações</th>
-                            </tr>
-                       </thead>
-                       <tbody>
-
-                            {categorias.map((c)=>(
-                                    <tr key={c.id}>
-                                        <td className="bg-white border text-left border-colapse p-2">{c.id}</td> 
-                                        <td className="bg-white border text-left border-colapse p-2">{c.nome}</td>
-                                        <td className="bg-white border text-left border-colapse p-2 flex gap-2">
-                                            <li className="list-none p-2 bg-red-400 rounded cursor-pointer"
-                                                onClick={() => {
-                                                  setCategoryToDelete(c.id)
-                                                }}
-                                            >
-                                                <i className="bi bi-trash-fill"></i>
-                                            </li>
-                                            <li className="list-none p-2 bg-blue-400 rounded cursor-pointer"                                                
-                                                onClick={() => {
-                                                  setCategoryToEdit(c)
-                                                }}
-                                            >
-                                                <i className="bi bi-pencil-fill"></i>
-                                            </li>
-                                        </td>
-                                    </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                        <Grid
+                            columns={columns}
+                            actions={actions}
+                            rows={categorias}
+                        />
                 </div>
             </div> 
             {categoryToEdit && (
@@ -205,32 +184,4 @@ export default function Categoria(){
     )
 }
 
-export function Grid({columns,data}){
-    console.log(data)
-    return (
-        <>
-            <div className="flex w-full">
-                <table>
-                    <thead>
-                        <tr>
-                            { columns.map((c)=>(
-                                <th key={c.nome}>{c.label}</th>
-                            ))}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {data.map((d,i)=>(
-                            <tr>
-                                {Object.entries(d).map((key,value)=>{
-                                    console.log(key[0])
-                                   return( <td key={key[1]}>{key[1]}</td>)
-                                })}
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
-        </>
-    )
-}
 

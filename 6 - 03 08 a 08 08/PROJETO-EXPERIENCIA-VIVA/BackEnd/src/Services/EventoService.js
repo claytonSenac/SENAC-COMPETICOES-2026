@@ -189,8 +189,8 @@ async function inscreverEvento(idParticipante,idEvento){
     }
 }
 
-async function cancelarInscricao(idParticipante,idEvento){
-    if(!idParticipante || !idEvento) return {code: 400, text: "Faltam dados"};
+async function cancelarInscricao(idInscricao){
+    if(!idInscricao) return {code: 400, text: "Faltam dados"};
 
     try {
         const data = await db.inscricao_evento.update({
@@ -198,8 +198,7 @@ async function cancelarInscricao(idParticipante,idEvento){
                ativo: false
             },
             where:{
-                idParticipante: idParticipante,
-                idEvento: idEvento
+                id: idInscricao
             }
         })
         
@@ -214,8 +213,37 @@ async function cancelarInscricao(idParticipante,idEvento){
     }
 }
 
-async function buscarEventosEParticipantes(){
-    
+async function buscarEventosEParticipantes(idEvento){
+    console.log(idEvento)
+
+    try {
+        const data = await db.evento.findUnique({
+            where:{
+                id: idEvento
+            },
+            include:{
+                inscricao_evento:{
+                    include:{
+                        participante:true
+                    },
+                    where:{
+                        ativo: true
+                    }
+                },
+                categoria:true
+            }, 
+
+        })
+        
+        return {code: 200, text: "sucesso", data:data};
+    } catch (error) {
+        console.log(error);
+        if(error?.PrismaClientKnownRequestError){
+            return {code:500,text:error?.PrismaClientKnownRequestError?.message}
+        }else{
+            return {code:500}
+        }
+}
 }
 
 export const eventoService = {
@@ -226,5 +254,6 @@ export const eventoService = {
     excluirEvento,
     listarProximos,
     cancelarInscricao,
-    inscreverEvento
+    inscreverEvento,
+    buscarEventosEParticipantes
 }
