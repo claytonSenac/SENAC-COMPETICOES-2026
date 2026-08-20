@@ -1,0 +1,4 @@
+PS C:\Users\SENAC MINAS\Desktop\Clayton\SENAC-COMPETICOES-2026\7 - 17 08 a 21 08\Experiencia_Viva\API> npm i express nodemon dotenv prisma @prisma/client @prisma/adapter-mariadb
+
+
+TERMINEI EM 43:48

@@ -1,0 +1,58 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model atividade {
+  id                     String                   @id @default(dbgenerated("(uuid())")) @db.Char(36)
+  nome                   String                   @db.VarChar(100)
+  descricao              String?                  @db.Text
+  dataEvento             DateTime                 @db.DateTime(0)
+  vagas                  Int
+  quantidade_vagas       Int
+  ativo                  Boolean                  @default(true)
+  criadoEm               DateTime                 @default(now()) @db.DateTime(0)
+  atualizadoEm           DateTime                 @default(now()) @db.DateTime(0)
+  atividade_participante atividade_participante[]
+}
+
+model atividade_participante {
+  id             String       @default(dbgenerated("(uuid())")) @db.Char(36)
+  criadoEm       DateTime     @default(now()) @db.DateTime(0)
+  atualizadoEm   DateTime     @default(now()) @db.DateTime(0)
+  ativo          Boolean      @default(true)
+  idParticipante String       @db.Char(36)
+  idAtividade    String       @db.Char(36)
+  participante   participante @relation(fields: [idParticipante], references: [id], onUpdate: Restrict, map: "atividade_participante_ibfk_1")
+  atividade      atividade    @relation(fields: [idAtividade], references: [id], onUpdate: Restrict, map: "atividade_participante_ibfk_2")
+
+  @@unique([idAtividade, idParticipante], map: "uk_unico")
+  @@index([idParticipante], map: "idParticipante")
+}
+
+model historicoparticipante {
+  id             String       @id @default(dbgenerated("(uuid())")) @db.Char(36)
+  email          String       @db.VarChar(100)
+  idParticipante String       @db.Char(36)
+  criadoEm       DateTime     @default(now()) @db.DateTime(0)
+  atualizadoEm   DateTime     @default(now()) @db.DateTime(0)
+  participante   participante @relation(fields: [idParticipante], references: [id], onUpdate: Restrict, map: "historicoparticipante_ibfk_1")
+
+  @@index([idParticipante], map: "idParticipante")
+}
+
+model participante {
+  id                     String                   @id @default(dbgenerated("(uuid())")) @db.Char(36)
+  nome                   String                   @db.VarChar(100)
+  ativo                  Boolean                  @default(true)
+  email                  String                   @unique(map: "email") @db.VarChar(100)
+  telefone               String                   @db.Char(11)
+  criadoEm               DateTime                 @default(now()) @db.DateTime(0)
+  atualizadoEm           DateTime                 @default(now()) @db.DateTime(0)
+  atividade_participante atividade_participante[]
+  historicoparticipante  historicoparticipante[]
+}
