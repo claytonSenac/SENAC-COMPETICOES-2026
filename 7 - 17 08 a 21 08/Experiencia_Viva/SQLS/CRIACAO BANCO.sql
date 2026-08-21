@@ -7,13 +7,10 @@ CREATE TABLE Atividade (
      descricao TEXT NULL,
 	 dataEvento DATETIME NOT NULL,
 	 vagas INT NOT NULL,
-     quantidade_vagas INT NOT NULL,
 	 ativo boolean default true NOT NULL,
 	 criadoEm DATETIME DEFAULT now() NOT NULL,
 	 atualizadoEm DATETIME DEFAULT now() NOT NULL ON UPDATE now()
  );
-
-
   
  CREATE TABLE Participante (
 	 id CHAR(36) DEFAULT (uuid()) NOT NULL PRIMARY KEY,
@@ -35,7 +32,7 @@ CREATE TABLE Atividade (
 );
 
 CREATE TABLE Atividade_Participante(
-  	 id CHAR(36) DEFAULT (uuid()) NOT NULL,
+  	 id CHAR(36) DEFAULT (uuid()) NOT NULL PRIMARY KEY,
  	 criadoEm DATETIME DEFAULT now() NOT NULL,
 	 atualizadoEm DATETIME DEFAULT now() NOT NULL ON UPDATE now(),
      ativo BOOLEAN DEFAULT TRUE NOT NULL,
@@ -43,22 +40,23 @@ CREATE TABLE Atividade_Participante(
      idAtividade  CHAR(36) NOT NULL,
 	 CONSTRAINT uk_unico UNIQUE(idAtividade,idParticipante),
      
-     FOREIGN KEY (idParticipante) REFERENCES Participante (id),
-     FOREIGN KEY (idAtividade) REFERENCES Atividade (id)
+     FOREIGN KEY (idParticipante) REFERENCES participante(id),
+     FOREIGN KEY (idAtividade) REFERENCES Atividade(id)
 );
+
 
 /* ao excluir participante salvar log dele na tab historico*/
 DELIMITER //
-	CREATE  TRIGGER TRG_HST_PARTICIPANTE BEFORE 
+	CREATE TRIGGER TRG_HST_PARTICIPANTE BEFORE 
     UPDATE ON Participante  FOR EACH ROW BEGIN
 	 IF OLD.ativo = true AND NEW.ativo = false THEN
-		SET NEW.email = CONCAT('DELETED_', CURDATE(),'_', OLD.email);
+		SET NEW.email = CONCAT('DELETED_', CURRENT_TIMESTAMP, OLD.email);
         INSERT INTO HistoricoParticipante VALUES(DEFAULT, OLD.email, OLD.id, DEFAULT,DEFAULT);
         UPDATE Atividade_Participante SET Ativo = false WHERE idParticipante = OLD.id;
 	 END IF;
     END;//
 DELIMITER ;
-
+ 
  /* Trigger para verificar se tem vaga ao inscrever na atividade*/
 DELIMITER //
 CREATE TRIGGER TRG_TEM_VAGA BEFORE
@@ -74,21 +72,7 @@ BEGIN
 END;//
  DELIMITER ;
 
- /* Trigger para não deixar inscrever quando o participante estiver deletado */
-
-DELIMITER //
-CREATE TRIGGER TRG_PARTICIPANTE_ATIVO BEFORE INSERT ON
-atividade_participante FOR EACH ROW 
-BEGIN
-	IF(SELECT ativo FROM participante where id = NEW.idParticipante) = false
-     THEN 
-     signal sqlstate '45000'
-     SET MESSAGE_TEXT = 'Participante não ativo';
-	END IF;
-END;// 
-DELIMITER ;
-
-/* Trigger para quando excluir participante aumentar a vaga */ 
+/* Trigger para quando excluir participante remover as inscricoes dele */
 
 DELIMITER //
 CREATE TRIGGER TRG_VOLTAR_VAGA BEFORE 
@@ -100,15 +84,3 @@ BEGIN
  END IF;
 END;//
  DELIMITER ;
- 
- /* Ao desativar participante remover as inscricoes dele */ */
- DELIMITER //
- CREATE TRIGGER TRG_REMOVER_INSCRICOES BEFORE UPDATE ON
- Participante FOR EACH ROW BEGIN
-  IF NEW.Ativo = false AND OLD.Ativo = true
-  THEN 
-  UPDATE atividade_participante set ativo = false WHERE idParticipante = OLD.id;
- END IF;
- END;//
- DELIMITER ;
-
