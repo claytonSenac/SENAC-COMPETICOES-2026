@@ -171,12 +171,25 @@ async function Inscrever(data){
 
         if(exists > 0 ) return ResError(400,"Participante ja inscrito no evento");
         
+        const haveVagas = await db.atividade.findFirst({
+            where:{
+                id: data.idAtividade,
+                ativo:true
+            }
+        });
+
+        if(haveVagas.vagas <= 0){
+            return ResError(400, "Sem vagas para o evento");
+        }
+
         const inscricao = await db.atividade_participante.create({
             data:{
                 idAtividade: data.idAtividade,
                 idParticipante: data.idParticipante
             }
-        })
+        });
+
+        // TODO: Adicionar condicional que o evento deve estar na data correta
 
 
         return ResSucess(201, "Inscrição Feita", inscricao)
