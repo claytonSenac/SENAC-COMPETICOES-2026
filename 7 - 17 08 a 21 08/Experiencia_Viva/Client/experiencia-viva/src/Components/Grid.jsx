@@ -24,6 +24,11 @@ export default function Grid({columns, actions,rows}){
                         {rows.map((r,i)=>(
                             <tr key={i}>
                                 {columns.map((c,i)=>{
+                                    if(c.render) {
+                                        return (
+                                            <td key={i}>{c.render(r[c.nome])}</td>
+                                        )
+                                    }
                                     return (
                                         <td key={i}>{r[c.nome]}</td>
                                     )

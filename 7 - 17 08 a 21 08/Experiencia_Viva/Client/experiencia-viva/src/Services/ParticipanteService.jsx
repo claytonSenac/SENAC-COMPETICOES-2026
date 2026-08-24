@@ -1,6 +1,6 @@
 const apiUrl = "http://localhost:3002";
 async function listar(){
-    const res = await fetch(apiUrl + "/atividade");
+    const res = await fetch(apiUrl + "/participante");
 
     if(res.ok){
         const data = await res.json();
@@ -12,7 +12,7 @@ async function listar(){
 
 async function excluir(id){
     if(!id) return null;
-    const res = await fetch(apiUrl + "/atividade/delete/"+id,{
+    const res = await fetch(apiUrl + "/participante/delete/"+id,{
         method:"DELETE"
     });
 
@@ -25,12 +25,12 @@ async function excluir(id){
 }
 
 async function criar(data){
-    const res = await fetch(apiUrl + "/atividade/",{
+    const res = await fetch(apiUrl + "/participante/",{
         method: "POST",
         headers:{
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({atividade: data})
+        body: JSON.stringify({participante: data})
     });
     const result = await res.json();
     return result;
@@ -38,27 +38,24 @@ async function criar(data){
 
 
 async function editar(data){
-    console.log(data)
-    data.dataEvento = new Date(data.dataEvento).toISOString();
-    console.log(data.dataEvento);
 
-    const res = await fetch(apiUrl + "/atividade/"+data.id,{
+    const res = await fetch(apiUrl + "/participante/"+data.id,{
         method: "PUT",
         headers:{
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({atividade: data})
+        body: JSON.stringify({participante: data})
     });
     const result = await res.json();
     return result;
 }
 
 
-const atividadeService = {
+const participanteService = {
     listar,
     excluir,
     criar,
     editar
 };
 
-export default atividadeService;
+export default participanteService;

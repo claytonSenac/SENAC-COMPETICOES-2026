@@ -1,20 +1,19 @@
 import { useEffect, useState } from "react";
 import Grid from "../../Components/Grid";
-import atividadeService from "../../Services/AtividadeService";
 import ConfirmModal from "../../Components/ConfirmModal";
-import { formatDate } from "../../Shared/formatDate";
+import { formatTelefone } from "../../Shared/formatTelefone";
+import participanteService from "../../Services/ParticipanteService";
 
 const columns = [
     {label: "Nome",nome: "nome"},
-    {label: "Data do Evento", nome: "dataEvento", render: formatDate},
-    {label: "Vagas Rest.",nome: "vagas"},
-    {label: "Tot vagas",nome: "quantidade_vagas"}
+    {label: "Email", nome: "email"},
+    {label: "Telefone",nome: "telefone", render: formatTelefone},
 ]
 
 
-export default function AtividadePage(){
+export default function ParticipantePage(){
 
-    const [atividade,setAtividade] = useState([]);
+    const [Participante,setParticipante] = useState([]);
 
     const [idToDelete, setIdToDelete] = useState(null);
     const [openForm, setOpenForm] = useState(false);
@@ -22,42 +21,43 @@ export default function AtividadePage(){
     const [details,setDetails] = useState(null);
 
     useEffect(() => {
-        loadAtividades()
+        loadParticipantes()
     },[]);
 
-    async function loadAtividades(){
-        const res = await atividadeService.listar();
+    async function loadParticipantes(){
+        const res = await participanteService.listar();
         
         if(res != null){
-            setAtividade([...res.data]);
+            setParticipante([...res.data]);
         }
     }
 
     async function handleExcluir(){
         if(!idToDelete) return null;
-        const res = await atividadeService.excluir(idToDelete);
+        const res = await participanteService.excluir(idToDelete);
         if(res){
             alert(res.message ?? "excluido");
             setIdToDelete(null);
-            await loadAtividades();
+            await loadParticipantes();
         }
     }
 
     async function handleSaveOrEdit(e){
         let res 
         if(dataToEdit && e.id != null){
-             res = await atividadeService.editar(e);
+             res = await participanteService.editar(e);
         }else{
-            res = await atividadeService.criar(e);
+            res = await participanteService.criar(e);
         }
         
         if(res.code == 201 || res.code == 200){
             alert(res.message ?? "Sucesso");
             setOpenForm(false);
-            await loadAtividades();
+            await loadParticipantes();
+            setDataToEdit({...null})
+        }else{
+            alert(res.message ?? "Erro")
         }
-        setDataToEdit(null)
-
     }
 
     const actions = (row)=> {
@@ -82,9 +82,9 @@ export default function AtividadePage(){
         <>
         <div className="w-full p-4 flex flex-col items-center justify-center">
             <div className="w-full  flex flex-col gap-4 items-center justify-center">
-                <h1 className="text-2xl font-semibold">Gerencie as atividades</h1>
+                <h1 className="text-2xl font-semibold">Gerencie as Participantes</h1>
                 <div className="flex gap-4 items-center">
-                    <p className="text-gray-600">Crie e Edite as atividades</p>
+                    <p className="text-gray-600">Crie e Edite as Participantes</p>
                     <button>
                         <i className="bi bi-plus-square-fill text-4xl text-blue-400 cursor-pointer" onClick={() => {
                           setDataToEdit(null)
@@ -96,7 +96,7 @@ export default function AtividadePage(){
                     <Grid 
                         columns={columns}
                         actions={actions}
-                        rows={atividade}
+                        rows={Participante}
                         />
                 </div>
             </div>
@@ -111,13 +111,13 @@ export default function AtividadePage(){
                 }}
             />
 
-            <AtividadeForm 
+            <ParticipanteForm 
                 open={openForm}
                 onSave={handleSaveOrEdit}
                 initialData={dataToEdit}
                 onCancel={() => {
-                  setDataToEdit({...null})
                   setOpenForm(false);
+                  setDataToEdit({...null})
                 }}
             />
             <ViewDetails 
@@ -132,19 +132,18 @@ export default function AtividadePage(){
 }
 
 
-function AtividadeForm({open,onSave, initialData, onCancel}){
-    const [formData,setFormData] = useState({id:"",nome:"",descricao:"",dataEvento:"",vagas:0});
+function ParticipanteForm({open,onSave, initialData, onCancel}){
+    const [formData,setFormData] = useState({id:"",nome:"",email:"",telefone:""});
 
     useEffect(() => {
         if(!initialData) return;
-        const data = initialData.dataEvento.slice(0,16)
 
+        
         setFormData({
             id: initialData?.id ?? null,
             nome: initialData?.nome ?? "",
-            descricao: initialData?.descricao ?? "",
-            dataEvento: data,
-            vagas: initialData?.vagas ?? 0
+            email: initialData?.email ?? "",
+            telefone: initialData?.telefone ?? ""
         })
     },[initialData])
 
@@ -162,7 +161,7 @@ function AtividadeForm({open,onSave, initialData, onCancel}){
         <>
             <div className="fixed w-screen h-full flex bg-black/40 items-center justify-center z-50">
                 <div className="bg-white p-4 flex flex-col gap-4 items-center rounded">
-                    <h2 className="text-2xl font-semibold">{initialData ? 'Editar' : 'Criar Atividade'}</h2>
+                    <h2 className="text-2xl font-semibold">{initialData ? 'Editar' : 'Criar Participante'}</h2>
                    <form className="flex flex-col gap-4 ">
                         <section className="flex gap-4 justify-between items-center">
                             <label className="font-semibold" htmlFor="nome">Nome:</label>
@@ -171,22 +170,16 @@ function AtividadeForm({open,onSave, initialData, onCancel}){
                             onChange={handleInputChange} type="text" value={formData.nome} name="nome" />
                         </section>
                         <section className="flex gap-4 justify-between items-center">
-                            <label className="font-semibold" htmlFor="descricao">Descricao:</label>
+                            <label className="font-semibold" htmlFor="email">Email:</label>
                             <input 
                              className="border rounded p-2"
-                            onChange={handleInputChange} type="text" value={formData.descricao} name="descricao" />
+                            onChange={handleInputChange} type="text" value={formData.email} name="email" />
                         </section>
                         <section className="flex gap-4 justify-between items-center">
-                            <label className="font-semibold" htmlFor="vagas">Vagas:</label>
+                            <label className="font-semibold" htmlFor="data">Telefone:</label>
                             <input 
                              className="border rounded p-2"
-                            onChange={handleInputChange} type="number" min={1} value={formData.vagas} name="vagas" />
-                        </section>
-                        <section className="flex gap-4 justify-between items-center">
-                            <label className="font-semibold" htmlFor="data">Data do Evento:</label>
-                            <input 
-                             className="border rounded p-2"
-                            onChange={handleInputChange} type="datetime-local" value={formData.dataEvento} name="dataEvento" />
+                            onChange={handleInputChange} type="text" maxLength={11} value={formData.telefone} name="telefone" />
                         </section>
                         <section className="flex gap-4 justify-between items-center">
                             <button 
@@ -217,19 +210,15 @@ function ViewDetails({open,data,onClose}){
         <div className="fixed w-screen h-full flex bg-black/40 items-center justify-center z-50">
             <div className="bg-white p-8 flex flex-col gap-4 items-center rounded">
                <div className="w-full flex gap-4 items-center">
-                    <h2 className="text-xl font-semibold">Detalhes do(a) #{data.nome}</h2>
+                    <h2 className="text-xl font-semibold">Participante: #{data.nome}</h2>
                     <button className="bg-red-400 p-2 rounded cursor-pointer" onClick={() => {
                       onClose()
                     }}>Fechar</button>
                </div>
                <div className="flex flex-col gap-4">
                     <p className="text-lg"><strong>Nome: </strong>{data.nome}</p>
-                    <p className="text-lg"><strong>Descricao: </strong>{data.descricao}</p>
-                    <p className="text-lg"><strong>Data: </strong>{data.dataEvento}</p>
-                    <p className="text-lg"><strong>Vagas: </strong> Restantes:{data.vagas}</p>
-                    
-                    <p className="text-lg"><strong>Vagas Total: </strong>{data.quantidade_vagas}</p>
-
+                    <p className="text-lg"><strong>Email: </strong>{data.email}</p>
+                    <p className="text-lg"><strong>Telefone: </strong>{formatTelefone(data.telefone)}</p>
                </div>
             </div>
         </div>

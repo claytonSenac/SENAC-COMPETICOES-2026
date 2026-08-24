@@ -23,7 +23,7 @@ export default function LayoutPage(){
                         <nav className="flex flex-col gap-4">
                             <SidebarItem linkTo={"/"} nome={"Dashboard"} icon={"bi-house-door"} open={open} />
                             <SidebarItem linkTo={"atividade"} nome={"Atividades"} icon={"bi-calendar-event"} open={open} />
-                            <SidebarItem linkTo={"dashboard"} nome={"Participantes"} icon={"bi-person-arms-up"} open={open} />
+                            <SidebarItem linkTo={"participante"} nome={"Participantes"} icon={"bi-person-arms-up"} open={open} />
                         </nav>
                     </aside>
                     <Outlet />

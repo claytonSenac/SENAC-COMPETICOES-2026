@@ -5,6 +5,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import LayoutPage from './Pages/Layout/Layout';
 import AtividadePage from './Pages/Atividade/Index';
 import Dashboard from './Pages/Dashboard/Index';
+import ParticipantePage from './Pages/Participante/Index';
 
 const routes = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ const routes = createBrowserRouter([
       {
         path : "/atividade",
         element: <AtividadePage />
+      },
+      {
+        path: "/participante",
+        element: <ParticipantePage />
       }
     ]
   }
