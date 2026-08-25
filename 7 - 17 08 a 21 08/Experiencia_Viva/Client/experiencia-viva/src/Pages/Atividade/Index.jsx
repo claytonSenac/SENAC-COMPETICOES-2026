@@ -137,13 +137,16 @@ function AtividadeForm({open,onSave, initialData, onCancel}){
 
     useEffect(() => {
         if(!initialData) return;
-        const data = initialData.dataEvento.slice(0,16)
+        let data;
+        if(initialData?.dataEvento){
+         data = initialData.dataEvento.slice(0,16)
+        }
 
         setFormData({
             id: initialData?.id ?? null,
             nome: initialData?.nome ?? "",
             descricao: initialData?.descricao ?? "",
-            dataEvento: data,
+            dataEvento: data || "",
             vagas: initialData?.vagas ?? 0
         })
     },[initialData])
@@ -226,7 +229,7 @@ function ViewDetails({open,data,onClose}){
                     <p className="text-lg"><strong>Nome: </strong>{data.nome}</p>
                     <p className="text-lg"><strong>Descricao: </strong>{data.descricao}</p>
                     <p className="text-lg"><strong>Data: </strong>{data.dataEvento}</p>
-                    <p className="text-lg"><strong>Vagas: </strong> Restantes:{data.vagas}</p>
+                    <p className="text-lg"><strong>Vagas  Restantes: </strong>{data.vagas}</p>
                     
                     <p className="text-lg"><strong>Vagas Total: </strong>{data.quantidade_vagas}</p>
 

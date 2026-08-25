@@ -12,6 +12,16 @@ async function listar(){
                 dataEvento: {
                     gte: dataAtual
                 }
+            },
+            include:{
+                atividade_participante: {
+                    include:{
+                        participante:true
+                    },
+                    where:{
+                        ativo:true
+                    }
+                } 
             }
         });
         return ResSucess(200,"sucesso",data);

@@ -50,12 +50,28 @@ async function editar(data){
     return result;
 }
 
+async function inscrever(data){
+    const res = await fetch(apiUrl + "/participante/inscrever",{
+        method: "POST",
+        headers:{
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            idParticipante: data.idParticipante,
+            idAtividade: data.idAtividade
+        })
+    });
+    const result = await res.json();
+    return result;
+}
+
 
 const participanteService = {
     listar,
     excluir,
     criar,
-    editar
+    editar,
+    inscrever
 };
 
 export default participanteService;
