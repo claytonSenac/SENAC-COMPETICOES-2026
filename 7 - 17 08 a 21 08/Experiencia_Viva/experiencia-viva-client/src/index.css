@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+*{
+  transition: .3s;
+}
+
+table,td,thead,tbody,tr,th{
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+*:disabled{
+  opacity: 0.4;
+  background-color: gray;
+}
