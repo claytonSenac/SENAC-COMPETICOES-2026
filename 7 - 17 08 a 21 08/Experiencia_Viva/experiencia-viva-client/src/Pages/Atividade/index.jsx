@@ -6,18 +6,12 @@ import formatDateIso from "../../Shared/formatDateIso";
 
 export default function Atividades(){
 
-    const columns = [
-        {nome: "nome", label: "Nome"},
-        {nome: "quantidade_vagas", label: "Tot. Vagas"},
-        {nome: "vagas", label: "Vagas"},
-        {nome: "dataEvento", label: "Data", render: formatDateIso}
-    ];
 
     const actions = (r) => {
         return (
             <div className="flex gap-4 p-2">
                 <i className="bi bi-eye-fill cursor-pointer text-blue-500 hover:text-blue-600 text-xl" onClick={() => {
-                  alert('Funcionalidade em desenvolvimento ( MOD D)')
+                  setDetails(r)
                 }}></i>
                 <i className="bi bi-pencil-fill cursor-pointer text-yellow-500 hover:text-yellow-600 text-xl" onClick={() => {
                     setDataToEdit(r);
@@ -35,8 +29,41 @@ export default function Atividades(){
     const [openForm, setOpenForm] = useState(false);
     const [dataToEdit, setDataToEdit] = useState(null);
 
+    const [columns,setColumns ] = useState([])
 
-    
+    const [largura,setLargura] = useState(0);
+    const [details, setDetails] = useState(null);
+
+    useEffect(() => {
+        const handleResize = ()=>{
+            setLargura(window.innerWidth)
+        }
+
+        window.addEventListener("resize",handleResize);
+
+        
+    },[])
+
+    useEffect(() => {
+      if(largura >= 320 && largura <= 600){
+        setColumns([
+        {nome: "nome", label: "Nome"},
+        ])
+      }else if(largura >= 600 && largura < 900){
+            setColumns([
+                {nome: "nome", label: "Nome"},
+                {nome: "vagas", label: "Vagas"},
+            ])
+      }else {
+        setColumns([
+            {nome: "nome", label: "Nome"},
+            {nome: "quantidade_vagas", label: "Tot. Vagas"},
+            {nome: "vagas", label: "Vagas"},
+            {nome: "dataEvento", label: "Data", render: formatDateIso}
+            ])
+        }
+    },[largura])
+
     useEffect(() => {
       loadData()
     },[]);
@@ -93,7 +120,7 @@ export default function Atividades(){
 
     return (
         <>
-            <div className="w-full h-full flex flex-col gap-4 p-4 items-center">
+            <div className="w-full h-full flex flex-col gap-4 p-4 items-center justify-center">
                 <h1 className="text-4xl font-semibold">Gerenciamento de Atividades</h1>
                 <div className="flex gap-8 items-center">
                     <p className="text-xl">Crie, Edite, Exclua Atividades</p>
@@ -128,6 +155,13 @@ export default function Atividades(){
                     onSave={handleSaveAtividade}
                 />
 
+                <Details 
+                    open={details}
+                    details={details}
+                    onClose={() => {
+                      setDetails(null)
+                    }}
+                />
             </div>
 
 
@@ -177,7 +211,7 @@ function AtividadeForm({initialData,onSave,onCancel,open}){
                         <section className="flex gap-4 justify-between">
                             <label className="font-semibold text-md" htmlFor="nome">Nome:</label>
                             <input className="border rounded p-2" type="text" name="nome" value={formData.nome} onChange={handleInputChange}/>
-                        </section>
+                        </section>           
                         <section className="flex gap-4 justify-between">
                             <label className="font-semibold text-md" htmlFor="descricao">Descricao:</label>
                             <input className="border rounded p-2" type="text" name="descricao" value={formData.descricao} onChange={handleInputChange}/>
@@ -214,4 +248,64 @@ function getDataParaInput(d){
     const dataFormatada = date.getTime() - utc;
 
     return new Date(dataFormatada).toISOString().slice(0,16);
+}
+
+
+function Details({ details, open, onClose }) {
+    if (!details || !open) return null;
+
+    const formatarData = (dataStr) => {
+        if (!dataStr) return "-";
+        return new Date(dataStr).toLocaleString("pt-BR", {
+            dateStyle: "short",
+            timeStyle: "short",
+        });
+    };
+
+    return (
+        <div className="bg-black/40 fixed top-0 left-0 w-screen h-screen flex items-center justify-center z-50">
+            <div className="bg-white rounded-lg p-6 max-w-lg w-full max-h-[90vh] overflow-y-auto flex flex-col gap-4 shadow-xl">
+                <div className="flex justify-between items-center pb-3">
+                    <h1 className="text-xl font-semibold">
+                        Detalhes da Atividade: <strong>{details?.nome ?? "-"}</strong>
+                    </h1>
+                    <button
+                        onClick={onClose}
+                        className="cursor-pointer bg-red-500 hover:bg-red-600 text-white font-bold rounded-md w-9 h-9 flex items-center justify-center transition-colors"
+                    >
+                        ✕
+                    </button>
+                </div>
+
+                <div className="p-3 border rounded-md border-gray-300 flex flex-col gap-2 bg-gray-50">
+                    <p><strong>Descrição:</strong> {details?.descricao ?? "Sem descrição"}</p>
+                    <p><strong>Data do Evento:</strong> {formatarData(details?.dataEvento)}</p>
+                    <p><strong>Vagas Disponíveis:</strong> {details?.vagas}</p>
+                    <p><strong>Total de Vagas:</strong> {details?.quantidade_vagas}</p>
+                    <p><strong>Status:</strong> {details?.ativo ? "Ativo" : "Inativo"}</p>
+                </div>
+
+                <div className="flex flex-col gap-2">
+                    <h2 className="font-bold text-gray-700">Participantes Inscritos ({details?.atividade_participante?.length || 0}):</h2>
+                    
+                    {details?.atividade_participante && details.atividade_participante.length > 0 ? (
+                        <div className="flex flex-col gap-2 max-h-48 overflow-y-auto">
+                            {details.atividade_participante.map((item) => {
+                                const p = item.participante;
+                                return (
+                                    <div key={item.id} className="p-2 border rounded border-gray-200 bg-white text-sm">
+                                        <p><strong>Nome:</strong> {p?.nome}</p>
+                                        <p><strong>Email:</strong> {p?.email}</p>
+                                        <p><strong>Telefone:</strong> {p?.telefone ?? "-"}</p>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    ) : (
+                        <p className="text-sm text-gray-500 italic">Nenhum participante inscrito nesta atividade.</p>
+                    )}
+                </div>
+            </div>
+        </div>
+    );
 }

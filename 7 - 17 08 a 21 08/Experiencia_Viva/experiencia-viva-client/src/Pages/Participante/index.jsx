@@ -6,17 +6,11 @@ import { participanteService } from "../../Services/ParticipanteService";
 
 export default function Participantes(){
 
-    const columns = [
-        {nome: "nome", label: "Nome"},
-        {nome: "email", label: "email"},
-        {nome: "telefone", label: "Telefone", render: formatTelefone}
-    ];
-
     const actions = (r) => {
         return (
             <div className="flex gap-4 p-2">
                 <i className="bi bi-eye-fill cursor-pointer text-blue-500 hover:text-blue-600 text-xl" onClick={() => {
-                  alert('Funcionalidade em desenvolvimento ( MOD D)')
+                    setDetails(r)
                 }}></i>
                 <i className="bi bi-pencil-fill cursor-pointer text-yellow-500 hover:text-yellow-600 text-xl" onClick={() => {
                     setDataToEdit(r);
@@ -33,8 +27,41 @@ export default function Participantes(){
     const [idToDelete, setIdToDelete] = useState(null);
     const [openForm, setOpenForm] = useState(false);
     const [dataToEdit, setDataToEdit] = useState(null);
+    const [details, setDetails] = useState(null);
 
+    const [columns,setColumns ] = useState([])
 
+    const [largura,setLargura] = useState(0);
+
+    useEffect(() => {
+        const handleResize = ()=>{
+            setLargura(window.innerWidth)
+        }
+
+        window.addEventListener("resize",handleResize);
+
+        
+    },[])
+
+    useEffect(() => {
+        if(largura >= 320 && largura <= 600){
+        setColumns([
+        {nome: "nome", label: "Nome"},
+        ])
+        }else if(largura >= 600 && largura < 900){
+            setColumns([
+                {nome: "nome", label: "Nome"},
+                {nome: "email", label: "email"},
+            ])
+        }else {
+        setColumns([
+        {nome: "nome", label: "Nome"},
+        {nome: "email", label: "email"},
+        {nome: "telefone", label: "Telefone", render: formatTelefone}
+    ])
+        }
+    },[largura])
+    
     
     useEffect(() => {
       loadData()
@@ -92,7 +119,7 @@ export default function Participantes(){
 
     return (
         <>
-            <div className="w-full h-full flex flex-col gap-4 p-4 items-center">
+            <div className="w-full h-full flex flex-col gap-4 p-4 items-center justify-center">
                 <h1 className="text-4xl font-semibold">Gerenciamento de Participantes</h1>
                 <div className="flex gap-8 items-center">
                     <p className="text-xl">Crie, Edite, Exclua Participantes</p>
@@ -125,6 +152,14 @@ export default function Participantes(){
                       setOpenForm(false)
                     }}
                     onSave={handleSaveParticipante}
+                />
+
+                <Details 
+                    open={details}
+                    details={details}
+                    onClose={() => {
+                      setDetails(null)
+                    }}
                 />
 
             </div>
@@ -206,4 +241,28 @@ function getDataParaInput(d){
     const dataFormatada = date.getTime() - utc;
 
     return new Date(dataFormatada).toISOString().slice(0,16);
+}
+
+
+function Details({details,open,onClose}){
+    if(!details || !open) return null;
+    return (
+        <>
+            <div className="bg-black/40 fixed top-0 left-0 w-screen h-screen flex items-center justify-center">
+                <div className="bg-white rounded p-4 max-w-md flex flex-col gap-4">
+                    <div className="flex gap-2 items-center">
+                        <h1>Detalhes do <strong>{details?.nome ?? "-"}</strong></h1>
+                        <button onClick={() => {
+                          onClose()
+                        }} className="p-2 cursor-pointer bg-red-500 text-white font-bold rounded w-12 h-12">X</button>
+                    </div>
+                    <div className="p-2 border rounded border-gray-400">
+                        <p><strong>Nome: </strong> {details?.nome}</p>
+                        <p><strong>Email: </strong> {details?.email}</p>
+                        <p><strong>Telefone: </strong> {formatTelefone(details?.telefone)}</p>
+                    </div>
+                </div>
+            </div>
+        </>
+    )
 }
