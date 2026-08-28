@@ -33,6 +33,41 @@ async function listar(){
     }
 }
 
+async function listarProximos(){
+       try {
+        const dataAtual = new Date();
+        
+        const data = await db.atividade.findMany({
+            where:{
+                ativo: true,
+                dataEvento: {
+                    gte: dataAtual
+                }
+            },
+            orderBy:{
+                dataEvento:"desc"
+            },
+            include:{
+                atividade_participante: {
+                    include:{
+                        participante:true
+                    },
+                    where:{
+                        ativo:true
+                    }
+                } 
+            },
+            take:5
+        });
+        return ResSucess(200,"sucesso",data);
+    } catch (e) {
+        if(e.code){
+            const err = tratarErro(e.code);
+            return ResError(400,err);
+        }
+    }
+}
+
 async function listarPorId(id){
     if(!id) return ResError(400,"Falta parametro id");
     try {
@@ -166,7 +201,8 @@ const atividadeService = {
     listarPorId,
     criar,
     editar,
-    excluir
+    excluir,
+    listarProximos
 }
 
 export default atividadeService;

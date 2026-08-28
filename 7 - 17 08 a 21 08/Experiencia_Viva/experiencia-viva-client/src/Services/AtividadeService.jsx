@@ -10,6 +10,16 @@ async function listar(){
     }
 }
 
+async function listarProximos(){
+    const res = await fetch(apiUrl + "/atividade/proximos");
+
+    if(res.status){
+        return res;
+    }else{
+        return null;
+    }
+}
+
 async function excluir(id){
     if(!id) return null;
 
@@ -65,5 +75,6 @@ export const AtividadeService = {
     listar,
     excluir,
     criar,
-    editar
+    editar,
+    listarProximos
 }

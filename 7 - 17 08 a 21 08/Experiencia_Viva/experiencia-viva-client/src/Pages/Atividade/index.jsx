@@ -3,6 +3,7 @@ import { AtividadeService } from "../../Services/AtividadeService";
 import Grid from "../../Components/Grid";
 import ConfirmModal from "../../Components/ConfirmModal";
 import formatDateIso from "../../Shared/formatDateIso";
+import formatTelefone from "../../Shared/formatTelefone";
 
 export default function Atividades(){
 
@@ -296,13 +297,13 @@ function Details({ details, open, onClose }) {
                                     <div key={item.id} className="p-2 border rounded border-gray-200 bg-white text-sm">
                                         <p><strong>Nome:</strong> {p?.nome}</p>
                                         <p><strong>Email:</strong> {p?.email}</p>
-                                        <p><strong>Telefone:</strong> {p?.telefone ?? "-"}</p>
+                                        <p><strong>Telefone:</strong> {formatTelefone(p?.telefone) ?? "-"}</p>
                                     </div>
                                 );
                             })}
                         </div>
                     ) : (
-                        <p className="text-sm text-gray-500 italic">Nenhum participante inscrito nesta atividade.</p>
+                        <p className="text-sm text-gray-500">Nenhum participante inscrito nesta atividade.</p>
                     )}
                 </div>
             </div>

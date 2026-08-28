@@ -8,6 +8,12 @@ async function listar(req,res){
     res.status(data.code).send(data);
 }
 
+async function listarProximos(req,res){
+    const data = await atividadeService.listarProximos();
+    res.status(data.code).send(data);
+}
+
+
 async function listarPorId(req,res){
     const {id} = req.params;
     const data = await atividadeService.listarPorId(id);
@@ -37,6 +43,7 @@ async function excluir(req,res){
 }
 
 routes.get("/",listar);
+routes.get("/proximos",listarProximos);
 routes.get("/:id",listarPorId);
 routes.post("/",criar);
 routes.put("/:id",editar);
