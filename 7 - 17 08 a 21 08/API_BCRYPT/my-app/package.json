@@ -1,0 +1,29 @@
+{
+  "name": "my-app",
+  "private": true,
+  "packageManager": "npm@10.9.0",
+  "type": "module",
+  "scripts": {
+    "build": "esbuild src/index.ts --bundle --platform=node --format=esm --outfile=dist/server.mjs",
+    "composer:deploy": "prisma deploy module.ts",
+    "composer:dev": "prisma dev module.ts",
+    "deploy": "npm run build && npm run composer:deploy",
+    "dev": "tsx watch src/index.ts",
+    "dev:composer": "npm run build && npm run composer:dev",
+    "start": "node dist/server.mjs",
+    "contract:emit": "prisma contract emit"
+  },
+  "dependencies": {
+    "@prisma/composer": "0.16.0",
+    "@prisma/composer-prisma-cloud": "0.16.0",
+    "alchemy": "2.0.0-beta.74"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.1",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
+  },
+  "overrides": {
+    "effect": "4.0.0-rc.112"
+  }
+}

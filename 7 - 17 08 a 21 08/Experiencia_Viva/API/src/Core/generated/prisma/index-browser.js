@@ -156,7 +156,16 @@ exports.Prisma.ParticipanteScalarFieldEnum = {
   email: 'email',
   telefone: 'telefone',
   criadoEm: 'criadoEm',
-  atualizadoEm: 'atualizadoEm'
+  atualizadoEm: 'atualizadoEm',
+  senha: 'senha',
+  Cpf: 'Cpf'
+};
+
+exports.Prisma.UserScalarFieldEnum = {
+  id: 'id',
+  nome: 'nome',
+  password: 'password',
+  email: 'email'
 };
 
 exports.Prisma.SortOrder = {
@@ -191,7 +200,15 @@ exports.Prisma.participanteOrderByRelevanceFieldEnum = {
   id: 'id',
   nome: 'nome',
   email: 'email',
-  telefone: 'telefone'
+  telefone: 'telefone',
+  senha: 'senha',
+  Cpf: 'Cpf'
+};
+
+exports.Prisma.userOrderByRelevanceFieldEnum = {
+  nome: 'nome',
+  password: 'password',
+  email: 'email'
 };
 
 
@@ -199,7 +216,8 @@ exports.Prisma.ModelName = {
   atividade: 'atividade',
   atividade_participante: 'atividade_participante',
   historicoparticipante: 'historicoparticipante',
-  participante: 'participante'
+  participante: 'participante',
+  user: 'user'
 };
 
 /**

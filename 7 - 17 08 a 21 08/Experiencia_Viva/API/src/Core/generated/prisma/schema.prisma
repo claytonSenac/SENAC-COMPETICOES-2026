@@ -53,6 +53,15 @@ model participante {
   telefone               String                   @db.Char(11)
   criadoEm               DateTime                 @default(now()) @db.DateTime(0)
   atualizadoEm           DateTime                 @default(now()) @db.DateTime(0)
+  senha                  String?                  @default("") @db.VarChar(1000)
+  Cpf                    String?                  @db.Char(11)
   atividade_participante atividade_participante[]
   historicoparticipante  historicoparticipante[]
+}
+
+model user {
+  id       Int    @id @default(autoincrement())
+  nome     String @db.VarChar(100)
+  password String @db.VarChar(1000)
+  email    String @unique(map: "email") @db.VarChar(100)
 }

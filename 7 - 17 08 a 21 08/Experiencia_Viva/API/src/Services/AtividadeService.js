@@ -2,6 +2,8 @@ import { db } from "../Core/dbContext.js";
 import {ResError,ResSucess} from '../Utils/returnCallBack.js'
 import tratarErro from "../utils/tratarErroPrisma.js";
 
+import bcrypt from 'bcryptjs';
+
 async function listar(){
     try {
         const dataAtual = new Date();
@@ -196,13 +198,39 @@ async function excluir(id){
     }
 }
 
+async function loginAdministrativo(body){
+    if(!body) return ResError(400,'campo body ausente');
+    if(!body.senha) return ResError(400,'campo senha ausente');
+    if(!body.email) return ResError(400,'campo email ausente');
+
+    const user = await db.user.findFirst({
+        where:{
+            email: body.email
+        }
+    });
+
+    if(!user) return ResError(400, 'email ou senha invalido');
+
+    const login = await bcrypt.compare(body.senha, user.password);
+
+    console.log( body.senha,login);
+
+    if(login){
+        return ResSucess(200,'autenticado');
+    }else{
+        return ResError(400, 'não autenticado' )
+    }
+
+}
+
 const atividadeService = {
     listar,
     listarPorId,
     criar,
     editar,
     excluir,
-    listarProximos
+    listarProximos,
+    loginAdministrativo
 }
 
 export default atividadeService;

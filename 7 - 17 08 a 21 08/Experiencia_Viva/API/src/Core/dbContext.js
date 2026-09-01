@@ -1,6 +1,7 @@
 import {PrismaMariaDb} from '@prisma/adapter-mariadb';
 import {PrismaClient} from './generated/prisma/client.js';
 import 'dotenv/config';
+import bcrypt from 'bcryptjs';
 
 const adapter = new PrismaMariaDb({
   host: process.env.DBHost,
@@ -20,7 +21,7 @@ try {
     await db.$connect();
     await db.$disconnect();
 
-    // await seedDb();
+    await seedDb();
     
 } catch (error) {
     console.log(error)
@@ -30,35 +31,21 @@ try {
 async function seedDb(){
     console.log('rodando seed');
 
-    if(await db.atividade.count() == 0){
-        console.log('rodando seed para eventos')
-        await db.atividade.createMany(
-            {
-                data:[
-                    {nome: "evento 001", dataEvento: new Date().toISOString(), vagas:50, quantidade_vagas: 50, descricao: "evento 001 de teste"},
-                    {nome: "evento 002", dataEvento: new Date().toISOString(), vagas:50, quantidade_vagas: 50, descricao: "evento 002 de teste"},
-                    {nome: "evento 003", dataEvento: new Date().toISOString(), vagas:50, quantidade_vagas: 50, descricao: "evento 003 de teste"},
-                    {nome: "evento 004", dataEvento: new Date().toISOString(), vagas:50, quantidade_vagas: 50, descricao: "evento 004 de teste"},
-                ]
-            } 
-        )
-        console.log('inserios')
+    if(await db.user.count() == 0){
+        console.log('rodando seed')
+
+        const hashed = await bcrypt.hash("Admin@123", await bcrypt.genSalt(10))
+
+        await db.user.create({
+            data:{
+                email: "admin@gmail.com",
+                nome: "Admin",
+                password: hashed
+            }
+        });q
+
     }else{
-        console.log('existe evento')
+        console.log('n precisa de seed')
     }
-
-    if(await db.participante.count() == 0){
-        console.log('rodando seed partiicpante');
-
-        await db.participante.createMany({
-            data:[
-                {nome: 'participante 001', email: 'p001@gmail.com',telefone:"31112341234"},
-                {nome: 'participante 001', email: 'p002@gmail.com',telefone:"31112341234"},
-                {nome: 'participante 001', email: 'p003@gmail.com',telefone:"31112341234"},
-                {nome: 'participante 001', email: 'p004@gmail.com',telefone:"31112341234"},
-            ]
-        })
-        console.log('participantes criados')
-        
-    }else{console.log('existe participantes')}
+    
 }

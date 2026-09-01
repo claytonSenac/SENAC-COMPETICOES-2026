@@ -1,3 +1,4 @@
+import bcrypt from "bcryptjs";
 import { db } from "../Core/dbContext.js";
 import {ResError,ResSucess} from '../Utils/returnCallBack.js'
 import tratarErro from "../utils/tratarErroPrisma.js";
@@ -7,6 +8,9 @@ async function listar(){
         const data = await db.participante.findMany({
             where:{
                 ativo: true
+            },
+            omit:{
+                senha:true
             }
         });
         return ResSucess(200,"sucesso",data);
@@ -25,6 +29,9 @@ async function listarPorId(id){
             where:{
                 ativo: true,
                 id: id
+            },
+            omit:{
+                senha:true
             }
         });
         return ResSucess(200,"sucesso",data);
@@ -43,11 +50,13 @@ async function criar(body){
     if(!body.nome) return ResError(400,"falta campo nome");
     if(!body.email) return ResError(400,"falta campo email");
     if(!body.telefone) return ResError(400,"falta campo telefone");
+    if(!body.cpf) return ResError(400,"falta campo cpf");
 
     email = body.email.toLowerCase().trim();
     telefone = body.telefone.toLowerCase().trim();
         console.log(telefone)
     if(telefone.length != 11) return ResError(400, "telefone deve seguir este padrao [ XX X XXXX XXXX ]");
+    if(body.cpf.length != 11) return ResError(400, "cpf deve ser limpo e com 11 caracteres");
 
     try {
         
@@ -59,12 +68,19 @@ async function criar(body){
 
         if(exists > 0) return ResError(400, `Existe um participante com este email`);
 
+        const salt =  await bcrypt.genSalt(10);
+        const senha =  await bcrypt.hash(body.senha,salt);
 
         const data = await db.participante.create({
             data:{
                 nome: body.nome,
                 email: email,
-                telefone: telefone
+                telefone: telefone,
+                senha: senha,
+                Cpf: body.cpf
+            },
+            omit:{
+                senha:true
             }
         });
 
@@ -112,10 +128,14 @@ async function editar(body,id){
             data:{
                 nome: body.nome,
                 email: email,
-                telefone: telefone
+                telefone: telefone,
+                Cpf: body.cpf
             },
             where:{
                 id: id
+            },
+            omit:{
+                senha:true
             }
         });
 
@@ -232,6 +252,27 @@ async function CancelarInscricao(idInscricao){
     }
 }
 
+async function Login(body){
+    if(!body) return ResError("falta body");
+
+    const exists = await db.participante.findFirst({
+        where: {
+            email : body.email
+        }
+    });
+
+    if(!exists) return ResError(400, "participante não encontrado ");
+
+    const valid = await bcrypt.compare(body.senha, exists.senha);
+    console.log(body.senha, exists.senha,valid)
+
+    if(valid){
+        return ResSucess(200,"logado")
+    }else{
+        return ResError(400, 'senha invalida')
+    }
+}
+
 const participanteService = {
     listar,
     listarPorId,
@@ -239,7 +280,8 @@ const participanteService = {
     editar,
     excluir,
     Inscrever,
-    CancelarInscricao
+    CancelarInscricao,
+    Login
 }
 
 export default participanteService;
