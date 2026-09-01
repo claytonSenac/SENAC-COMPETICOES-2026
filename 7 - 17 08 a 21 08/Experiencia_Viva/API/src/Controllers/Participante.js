@@ -56,6 +56,13 @@ async function cancelarInscricao(req,res){
 
 }
 
+async function Login(req,res){
+    const { email,senha} = req.body;
+
+    const data = await participanteService.Login({email,senha});
+    res.status(data.code).send(data);
+}
+
 routes.get("/",listar);
 routes.get("/:id",listarPorId);
 routes.post("/",criar);
@@ -63,5 +70,5 @@ routes.post("/inscrever/",inscreverAtividade);
 routes.post("/cancelarInscricao/",cancelarInscricao);
 routes.put("/:id",editar);
 routes.delete("/delete/:id",excluir);
-
+routes.post('/login',Login)
 export default routes;

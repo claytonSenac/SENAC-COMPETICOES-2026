@@ -123,14 +123,14 @@ export default function Participantes(){
                 <h1 className="text-4xl font-semibold">Gerenciamento de Participantes</h1>
                 <div className="flex gap-8 items-center">
                     <p className="text-xl">Crie, Edite, Exclua Participantes</p>
-                    <button onClick={() => {
+                    {/* <button onClick={() => {
                         console.log('clicou')
                             setDataToEdit(null)
                             setOpenForm(true)
                         }}>
                         <i 
                         className="bi bi-plus-square-fill text-blue-500 text-4xl hover:text-blue-600 cursor-pointer"></i>                    
-                    </button>
+                    </button> */}
                 </div>
 
                 <Grid  columns={columns} rows={Participantes} actions={actions}/>

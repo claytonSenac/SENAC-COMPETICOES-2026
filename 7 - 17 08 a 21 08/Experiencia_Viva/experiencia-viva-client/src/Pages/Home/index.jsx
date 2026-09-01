@@ -13,8 +13,7 @@ export default function Home(){
 
     const [filtroAtividade, setFiltroAtividade] = useState("");
 
-    const [filtroParticipante , setFiltroParticipante] = useState("");
-
+    const [formData,setFormData] = useState({nome: "", senha: "", email: "", telefone: "",cpf: ""})
     const [atividadesFiltradas, setAtividadesFiltradas] =  useState([]);
     const [participantesFiltradas, setParticipantesFiltradas] =  useState([]);
 
@@ -23,11 +22,11 @@ export default function Home(){
     },[])
 
     async function handleInscrever(){
-        const res = await participanteService.inscrever(formInscricao);
+        const res = await participanteService.criar(formData);
         if(res){
            alert(res.message);
            setModalInscricao(false);
-           setFormInscricao({idAtividade:"", idParticipante:""})
+            alert('agora vai pra selecionar atividade e se inscrever')
         }
     }
 
@@ -59,12 +58,6 @@ export default function Home(){
       setAtividadesFiltradas([...filtered])
     },[filtroAtividade])
 
-    useEffect(() => {
-      const filtered = participantes.filter(a => a?.nome.toLowerCase().trim().includes(filtroParticipante) || a?.telefone.trim().includes(filtroParticipante));
-
-      setAtividadesFiltradas([...filtered])
-    },[filtroParticipante])
-
     return(
         <>
             <div className="w-full h-full flex flex-col items-center gap-4 p-8">
@@ -91,11 +84,14 @@ export default function Home(){
                     </div>
                 )}
 
-                <div className="">
+                <div className="flex gap-4">
                     <button onClick={() => {
                       setModalInscricao(true)
                     }} className="p-4 rounded bg-blue-500 text-white font-semibold hover:bg-blue-600">Inscrever Agora!</button>
-                </div>
+                    <button onClick={() => {
+                      setModalInscricao(true)
+                    }} className="p-4 rounded bg-purple-500 text-white font-semibold hover:bg-purple-600">Minhas Inscrições</button>
+                </div>                                                                                                                                      
 
 
                 {modalInscricao && (
@@ -104,45 +100,35 @@ export default function Home(){
                             <div className="bg-white p-8 max-w-xs rounded flex flex-col gap-4">
                                 <h2 className="text-2xl text-blue-500 font-semibold text-center">Fazer inscrição</h2>
                                 <div className="flex flex-col gap-4">
-                                    <p className="text-xl font-semibold">Selecione uma Atividade</p>
+                                    <p className="text-xl font-semibold">Insira seu Email</p>
 
-                                    <input type="text" className="border rounded" placeholder="Filtre por Atividade"  value={filtroAtividade} onChange={(e) => {
-                                      setFiltroAtividade(e.target.value)
+                                    <input type="text" maxLength={50} className="border rounded" placeholder="Insira seu email "  value={formData.email} onChange={(e) => {
+                                        setFormData((prev)=>({...prev,email: e.target.value}))
                                     }}/>
 
-                                    <select className="border rounded" onChange={(e) => {
-                                    setFormInscricao((prev)=>({
-                                        ...prev,
-                                        idAtividade: e.target.value
-                                    }))
-                                    }}>
-                                        <option value="">Selecione uma atividade</option>
-                                        {atividadesFiltradas.map((a)=>(
-                                            <option value={a.id}>{a.nome}</option>
-                                        ))}
-                                    </select>
-                                    <p className="text-xl font-semibold">Selecione um Participante</p>
-                                    <input type="text" className="border rounded" placeholder="Filtre por Participante"  value={filtroParticipante} onChange={(e) => {
-                                      setFiltroParticipante(e.target.value)
+                                    <input type="text" maxLength={50} className="border rounded" placeholder="Insira seu nome "  value={formData.nome} onChange={(e) => {
+                                        setFormData((prev)=>({...prev,nome: e.target.value}))
                                     }}/>
-                                    <select className="border rounded" onChange={(e) => {
-                                    setFormInscricao((prev)=>({
-                                        ...prev,
-                                        idParticipante: e.target.value
-                                    }))
-                                    }}>
-                                        <option value="">Selecione uma Participante</option>
-                                        {participantesFiltradas.map((a)=>(
-                                            <option className="flex flex-col" value={a.id}>
-                                                <p>{a.nome}</p>
-                                            </option>
-                                        ))}d
-                                    </select>
+
+                                    <input type="text" maxLength={11} className="border rounded" placeholder="Insira seu telefone "  value={formData.telefone} onChange={(e) => {
+                                        setFormData((prev)=>({...prev,telefone: e.target.value}))
+                                    }}/>
+                                    <input type="text" maxLength={11} className="border rounded" placeholder="Insira seu CPF "  value={formData.cpf} onChange={(e) => {
+                                        setFormData((prev)=>({...prev,cpf: e.target.value}))
+                                    }}/>
+
+                                    <input type="text" maxLength={50} className="border rounded" placeholder="Insira sua senha "  value={formData.senha} onChange={(e) => {
+                                        setFormData((prev)=>({...prev,senha: e.target.value}))
+                                    }}/>
+
+
+                                    
+
                                     <div className="flex gap-2 justify-between">
                                         <button onClick={async () => {
                                             await handleInscrever()
                                         }} className="bg-blue-400 p-2 rounded cursor-pointer"
-                                            disabled={formInscricao.idAtividade == "" || formInscricao.idParticipante == ""}
+                                            
                                         >Inscrever</button>
                                         <button onClick={() => {
                                         setModalInscricao(false)
