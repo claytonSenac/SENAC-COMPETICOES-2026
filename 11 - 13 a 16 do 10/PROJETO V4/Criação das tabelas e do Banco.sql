@@ -1,0 +1,47 @@
+CREATE DATABASE IF NOT EXISTS db_exp_viva;
+use db_exp_viva;
+
+
+CREATE TABLE IF NOT EXISTS Participante (
+	 Id CHAR(36) NOT NULL PRIMARY KEY DEFAULT(UUID()),
+	 Nome VARCHAR(50) NOT NULL,
+	 Email VARCHAR(100) NOT NULL UNIQUE, 
+	 Telefone CHAR(11) NOT NULL, 
+	 Ativo BOOLEAN DEFAULT TRUE NOT NULL,
+	 HashSenha CHAR(60) NOT NULL
+ );
+ 
+ CREATE TABLE IF NOT EXISTS Atividade (
+  	 Id CHAR(36) NOT NULL PRIMARY KEY DEFAULT(UUID()),
+	 Ativo BOOLEAN DEFAULT TRUE NOT NULL,
+	 Nome VARCHAR(50) NOT NULL,
+	 Descricao TEXT, 
+     VagasRestantes INTEGER NOT NULL DEFAULT 0,
+     Vagas INTEGER NOT NULL DEFAULT 0,
+     Horario VARCHAR(40) DEFAULT('13:30')
+	);
+    
+    
+CREATE TABLE IF NOT EXISTS Inscricao (
+	Id CHAR(36) NOT NULL PRIMARY KEY DEFAULT(UUID()),
+	Ativo BOOLEAN DEFAULT TRUE NOT NULL,
+    IdParticipante  CHAR(36) NOT NULL,
+	IdAtividade CHAR(36) NOT NULL,
+    constraint UK_INSCRICAO_UNICA UNIQUE(IdParticipante,IdAtividade),
+    FOREIGN KEY (IdParticipante) REFERENCES Participante(Id),
+    FOREIGN KEY (IdAtividade) REFERENCES Atividade(Id)
+);
+
+CREATE TABLE IF NOT EXISTS HstParticipante(
+	 ID INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	 email VARCHAR(100) NOT NULL,
+	 IdParticipante CHAR(36) NOT NULL,
+	 foreign key (IdParticipante) REFERENCES Participante(Id)
+ );
+ 
+ CREATE TABLE IF NOT EXISTS User (
+  Id CHAR(36) NOT NULL PRIMARY KEY DEFAULT(UUID()),
+  email VARCHAR(100) NOT NULL,
+	HashSenha CHAR(60) NOT NULL
+    );
+ 

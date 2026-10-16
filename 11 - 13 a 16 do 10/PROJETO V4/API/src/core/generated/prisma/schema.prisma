@@ -1,0 +1,70 @@
+generator client {
+  provider        = "prisma-client-js"
+  output          = "../generated/prisma"
+  previewFeatures = ["views"]
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model atividade {
+  Id             String      @id @default(dbgenerated("(uuid())")) @db.Char(36)
+  Ativo          Boolean     @default(true)
+  Nome           String      @db.VarChar(50)
+  Descricao      String?     @db.Text
+  VagasRestantes Int         @default(0)
+  Vagas          Int         @default(0)
+  Horario        String?     @default("13:30") @db.VarChar(40)
+  inscricao      inscricao[]
+}
+
+model hstparticipante {
+  ID             Int          @id @default(autoincrement())
+  email          String       @db.VarChar(100)
+  IdParticipante String       @db.Char(36)
+  participante   participante @relation(fields: [IdParticipante], references: [Id], onUpdate: Restrict, map: "hstparticipante_ibfk_1")
+
+  @@index([IdParticipante], map: "IdParticipante")
+}
+
+model inscricao {
+  Id             String       @id @default(dbgenerated("(uuid())")) @db.Char(36)
+  Ativo          Boolean      @default(true)
+  IdParticipante String       @db.Char(36)
+  IdAtividade    String       @db.Char(36)
+  participante   participante @relation(fields: [IdParticipante], references: [Id], onUpdate: Restrict, map: "inscricao_ibfk_1")
+  atividade      atividade    @relation(fields: [IdAtividade], references: [Id], onUpdate: Restrict, map: "inscricao_ibfk_2")
+
+  @@unique([IdParticipante, IdAtividade], map: "UK_INSCRICAO_UNICA")
+  @@index([IdAtividade], map: "IdAtividade")
+}
+
+model participante {
+  Id              String            @id @default(dbgenerated("(uuid())")) @db.Char(36)
+  Nome            String            @db.VarChar(50)
+  Email           String            @unique(map: "Email") @db.VarChar(100)
+  Telefone        String            @db.Char(11)
+  Ativo           Boolean           @default(true)
+  HashSenha       String            @db.Char(60)
+  hstparticipante hstparticipante[]
+  inscricao       inscricao[]
+}
+
+model user {
+  Id        String @id @default(dbgenerated("(uuid())")) @db.Char(36)
+  email     String @db.VarChar(100)
+  HashSenha String @db.Char(60)
+}
+
+view vw_atividade_menor_aderencia {
+  Id             String   @default(dbgenerated("(uuid())")) @db.Char(36)
+  Ativo          Boolean  @default(true)
+  Nome           String   @db.VarChar(50)
+  Descricao      String?  @db.Text
+  VagasRestantes Int      @default(0)
+  Vagas          Int      @default(0)
+  Horario        String?  @default("13:30") @db.VarChar(40)
+  totalInscritos BigInt   @default(0)
+  aderencia      Decimal? @db.Decimal(17, 2)
+}
