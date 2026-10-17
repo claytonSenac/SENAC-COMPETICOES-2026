@@ -29,6 +29,21 @@ async function seed(){
         });
         console.log("Finalizado")
     }
+
+    if(await db.participante.count({where:{Email: "teste@gmail.com"}}) == 0){
+        console.log("Rodando seed do participante teste");
+        const salt = await bcrypt.genSalt(10);
+        const senha = await bcrypt.hash("admin@senac", salt);
+        await db.participante.create({
+            data:{
+                Email: "teste@gmail.com",
+                HashSenha: senha,
+                Nome: "Teste Senac",
+                Telefone: "31990854480",
+            }
+        });
+        
+    }
 }
 
 await seed()

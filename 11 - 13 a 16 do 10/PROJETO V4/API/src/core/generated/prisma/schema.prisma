@@ -16,6 +16,7 @@ model atividade {
   VagasRestantes Int         @default(0)
   Vagas          Int         @default(0)
   Horario        String?     @default("13:30") @db.VarChar(40)
+  Data           DateTime    @default(now()) @db.Date
   inscricao      inscricao[]
 }
 
@@ -58,13 +59,10 @@ model user {
 }
 
 view vw_atividade_menor_aderencia {
-  Id             String   @default(dbgenerated("(uuid())")) @db.Char(36)
-  Ativo          Boolean  @default(true)
-  Nome           String   @db.VarChar(50)
-  Descricao      String?  @db.Text
-  VagasRestantes Int      @default(0)
-  Vagas          Int      @default(0)
-  Horario        String?  @default("13:30") @db.VarChar(40)
+  id             String   @default(dbgenerated("(uuid())")) @db.Char(36)
+  nome           String   @db.VarChar(50)
+  vagas          Int      @default(0)
+  vagasRestantes Int      @default(0)
   totalInscritos BigInt   @default(0)
   aderencia      Decimal? @db.Decimal(17, 2)
 }

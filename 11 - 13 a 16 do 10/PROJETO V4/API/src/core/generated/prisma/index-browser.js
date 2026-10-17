@@ -127,7 +127,8 @@ exports.Prisma.AtividadeScalarFieldEnum = {
   Descricao: 'Descricao',
   VagasRestantes: 'VagasRestantes',
   Vagas: 'Vagas',
-  Horario: 'Horario'
+  Horario: 'Horario',
+  Data: 'Data'
 };
 
 exports.Prisma.HstparticipanteScalarFieldEnum = {
@@ -159,13 +160,10 @@ exports.Prisma.UserScalarFieldEnum = {
 };
 
 exports.Prisma.Vw_atividade_menor_aderenciaScalarFieldEnum = {
-  Id: 'Id',
-  Ativo: 'Ativo',
-  Nome: 'Nome',
-  Descricao: 'Descricao',
-  VagasRestantes: 'VagasRestantes',
-  Vagas: 'Vagas',
-  Horario: 'Horario',
+  id: 'id',
+  nome: 'nome',
+  vagas: 'vagas',
+  vagasRestantes: 'vagasRestantes',
   totalInscritos: 'totalInscritos',
   aderencia: 'aderencia'
 };
@@ -213,10 +211,8 @@ exports.Prisma.userOrderByRelevanceFieldEnum = {
 };
 
 exports.Prisma.vw_atividade_menor_aderenciaOrderByRelevanceFieldEnum = {
-  Id: 'Id',
-  Nome: 'Nome',
-  Descricao: 'Descricao',
-  Horario: 'Horario'
+  id: 'id',
+  nome: 'nome'
 };
 
 
