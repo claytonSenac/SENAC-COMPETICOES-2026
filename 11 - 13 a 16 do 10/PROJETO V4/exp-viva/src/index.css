@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+.title{
+  @apply text-3xl font-semibold
+}
+
+.subTitle{
+  @apply text-2xl font-semibold
+}
+
+.input{
+  @apply border rounded pl-2 border-blue-400
+}

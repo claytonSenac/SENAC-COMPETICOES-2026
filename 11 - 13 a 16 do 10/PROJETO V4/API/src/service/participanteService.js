@@ -7,6 +7,38 @@ async function listar(){
         const exists = await db.participante.findMany({
             where:{
                 Ativo:true
+            },
+            omit:{
+                HashSenha:true
+            }
+        });
+
+        return Result.sucess(200,"sucesso",exists);
+    } catch (error) {
+        return Result.fail(error)
+    }
+}
+
+async function detalhesParticipante(id){
+    if(!id)return Result.fail("Sem dados do participante")
+    try {
+        const exists = await db.participante.findFirst({
+            where:{
+                Ativo:true,
+                Id: id
+            },
+            omit:{
+                HashSenha:true
+            },
+            include:{
+                inscricao:{
+                    where:{
+                        Ativo:true
+                    },
+                    include:{
+                        atividade:true
+                    }
+                }
             }
         });
 
@@ -44,7 +76,9 @@ async function criar(body){
             }
         });
 
-        return Result.sucess(201,"criado", res);
+        let json = res;
+        delete json.HashSenha;
+        return Result.sucess(201,"criado", json);
 
     } catch (error) {
         console.log(error);
@@ -93,7 +127,46 @@ async function editar(body,id){
             }
         });
 
-        return Result.sucess(201,"criado", res);
+        let json = res;
+        delete json.HashSenha;
+        return Result.sucess(200,"editado", json);
+
+    } catch (error) {
+        console.log(error);
+        return Result.fail(error);
+    }
+}
+
+
+async function editarAdmin(body,id){
+    if(!body || !body.nome || !id || !body.email || !body.telefone ) return Result.fail("Campos incorretos", body);
+
+    if(body.telefone.length != 11) return Result.fail("O telefone deve conter no maximo 11 caracteres", body);
+
+    try {
+        const exists = await db.participante.findFirst({
+            where:{
+                Email: body.email
+            }
+        });
+
+        if(!exists) return Result.fail("Participante não existe!");
+
+        
+        const res = await db.participante.update({
+            where:{
+                Id: id
+            },
+            data:{
+                Nome:body.nome,
+                Email: body.email,
+                Telefone: body.telefone
+            }
+        });
+
+        let json = res;
+        delete json.HashSenha;
+        return Result.sucess(200,"editado", json);
 
     } catch (error) {
         console.log(error);
@@ -138,7 +211,7 @@ async function inscrever(body){
         const exists = await db.inscricao.findFirst({
             where:{
                 IdAtividade: body.idAtividade,
-                idParticipante: body.idParticipante
+                IdParticipante: body.idParticipante
             }
         });
 
@@ -161,7 +234,8 @@ async function inscrever(body){
         if(atividade.VagasRestantes <= 0)return Result.fail("Atividade sem Vagas!");
 
         if(exists){
-            if(exists.Ativo = true) return Result.fail("Participante ja inscrito");
+            
+            if(exists.Ativo == true) return Result.fail("Participante ja inscrito");
 
             await db.inscricao.update({
                 where:{
@@ -188,6 +262,73 @@ async function inscrever(body){
         return Result.fail(error);
     }
 }
+
+async function cancelarInscricao(idInscricao){
+    if(!idInscricao) return Result.fail("Sem campos");
+
+    try {
+        const exists = await db.inscricao.findFirst({
+            where:{
+               Id: idInscricao
+            }
+        });
+
+
+        if(exists){
+            if(exists.Ativo == false) return Result.fail("Inscrição já cancelada");
+
+            await db.inscricao.update({
+                where:{
+                    Id: exists.Id
+                },
+                data:{
+                    Ativo:false
+                }
+            });
+
+            return Result.sucess(200, "Inscrição cancelada com sucesso!");
+        }else{
+            
+
+            return Result.fail(400, "Inscricao não existe");
+        }
+    } catch (error) {
+        console.log(error);
+        return Result.fail(error);
+    }
+}
+
+async function redefinirSenha(id){
+    if(!id) return Result.fail("Sem id ");
+
+    try {
+        const exists = await db.participante.findFirst({
+            where: {
+                Id:id
+            }
+        });
+
+        if(!exists) return Result.fail("Participante não existente");
+        const salt = await bcrypt.genSalt(10);
+        const senha = await bcrypt.hash("12345678", salt);
+
+        await db.participante.update({
+            where:{
+                Id:id
+            },
+            data:{
+                HashSenha: senha
+            }
+        });
+
+        return Result.sucess(200,"Senha redefinida para ( 12345678 )");
+    } catch (error) {
+        console.log(error)
+        return Result.fail(error);
+    }
+}
+
+
 export const participanteService = {
-    
+    listar,criar,editar,excluir,inscrever,cancelarInscricao,detalhesParticipante,editarAdmin,redefinirSenha
 }

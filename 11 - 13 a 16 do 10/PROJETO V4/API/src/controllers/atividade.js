@@ -22,6 +22,8 @@ r.get("/menorAderencia", async (req,res) => {
   res.status(result.code).json(result)
 });
 
+
+
 r.get("/disponiveis/:idParticipante", async (req,res) => {
   const {idParticipante} = req.params;
   const result = await atividadeService.listarDisponiveis(idParticipante);
