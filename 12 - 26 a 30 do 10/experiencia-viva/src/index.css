@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+@layer base {
+  h1{
+    @apply  text-3xl font-semibold
+  }
+  h2{
+    @apply text-2xl font-semibold
+  }
+
+  input{
+    @apply border border-slate-400 px-2 rounded 
+  }
+
+  label{
+    @apply  text-lg
+  }
+  section{
+    @apply flex justify-between  flex-col
+  }
+}
+
+@layer components {
+  .modal {
+    
+  }
+}
