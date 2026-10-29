@@ -14,7 +14,7 @@ export default function Layout(){
 
     return(
         <>
-            <div className="flex flex-col w-full flex-1 min-h-dvh bg-blue-900">
+            <div className="flex flex-col w-full flex-1 min-h-dvh bg-slate-900">
                 <header className="h-auto md:h-20 bg-blue-400 px-4 py-3 flex flex-col md:flex-row items-center justify-between w-full fixed top-0 left-0 z-50 shadow-md gap-4">
                     <div className="h-12 md:h-14 flex items-center">
                         <img 

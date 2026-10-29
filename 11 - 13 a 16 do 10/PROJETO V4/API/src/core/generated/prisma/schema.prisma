@@ -63,6 +63,8 @@ view vw_atividade_menor_aderencia {
   nome           String   @db.VarChar(50)
   vagas          Int      @default(0)
   vagasRestantes Int      @default(0)
+  Data           DateTime @default(now()) @db.Date
+  Horario        String?  @default("13:30") @db.VarChar(40)
   totalInscritos BigInt   @default(0)
   aderencia      Decimal? @db.Decimal(17, 2)
 }

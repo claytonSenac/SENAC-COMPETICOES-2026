@@ -14,9 +14,20 @@ export const service = {
     inscreverParticipante,
     excluirParticipante,
     redefinirSenhaParticipante,
-    excluirAtividade
+    excluirAtividade,
+    getDashboard
 }
 const apiUrl=  "http://localhost:3000";
+
+async function getDashboard(){
+    const res = await fetch(apiUrl + "/saude", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        }
+    })
+    return await res.json()
+}
 
 async function redefinirSenhaParticipante(id){
     const res = await fetch(apiUrl + "/participante/redefinirSenha/"+id, {

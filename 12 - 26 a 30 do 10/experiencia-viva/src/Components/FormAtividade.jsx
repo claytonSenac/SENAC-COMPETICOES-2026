@@ -95,7 +95,7 @@ export default function FormAtividade({
                 </section>
                 <section>
                     <label htmlFor="horario">Horario:</label>
-                    <input type="text" value={form.horario} name="horario"  onChange={onChange} />
+                    <input type="time" value={form.horario} name="horario"  onChange={onChange} />
                 </section>
 
                 <section>

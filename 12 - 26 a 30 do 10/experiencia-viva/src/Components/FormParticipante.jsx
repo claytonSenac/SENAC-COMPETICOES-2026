@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import Button from "./Button";
 import { service } from "../service";
 import { toast } from "react-toastify";
+import { InputMask } from "@react-input/mask";
 
 export default function FormParticipante({
     isAdmin = false,
@@ -21,6 +22,7 @@ export default function FormParticipante({
     }
 
     function onChange(e){
+        console.log(e)
         setForm((prev)=>({
             ...prev,
             [e.target.name] : e.target.value
@@ -95,7 +97,7 @@ export default function FormParticipante({
 
     return(
         <>
-            <form className="min-h-96 w-full max-w-80 bg-slate-50 border border-slate-300 shadow rounded p-4 flex flex-col gap-4 justify-between">
+            <form className="min-h-96 w-full max-w-80 sm:max-w-none bg-slate-50 border border-slate-300 shadow rounded p-4 flex flex-col gap-4 justify-between">
                 <h1>{title}</h1>
                 <section>
                     <label htmlFor="nome">Nome:</label>
@@ -107,7 +109,7 @@ export default function FormParticipante({
                 </section>
                 <section>
                     <label htmlFor="telefone">Telefone:</label>
-                    <input type="text" value={form.telefone} name="telefone" maxLength={11} onChange={onChange} />
+                    <InputMask showMask={true} mask="(__) _ ____-_____" replacement={{ _: /\d/ }} onChange={onChange} value={form.telefone} name="telefone"/>
                 </section>
 
                {!isAdmin && (
@@ -120,7 +122,7 @@ export default function FormParticipante({
                         <label htmlFor="confirmSenha">Confirme a Senha:</label>
                         <input type={showSenha ? "text" : "password" } value={form.confirmSenha} name="confirmSenha" onChange={onChange} />
                     </section>
-                    <button onClick={(e) => {
+                    <button className="font-semibold cursor-pointer" onClick={(e) => {
                         e.preventDefault()
                         setShowSenha(!showSenha)
                     }}>{showSenha ? "Ocultar senha" : "Ver senha"}</button>

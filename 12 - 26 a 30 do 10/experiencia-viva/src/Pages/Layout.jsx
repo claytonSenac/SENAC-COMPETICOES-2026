@@ -8,15 +8,15 @@ import { service } from "../service";
 
 export default function Layout(){
     const nav = useNavigate();
-    const [login,setLogin] = useState({open:false, isAdmin:false})
+    const [login,setLogin] = useState({open:false, isAdmin:false});
     return(
         <>
             <div className="min-h-dvh w-full flex flex-col">
-                <header className="h-14 bg-blue-400 w-full flex px-4 justify-between fixed top-0 left-0">
-                    <div className="h-full p-2">
+                <header className="min-h-16 flex-wrap sm:flex-nowrap bg-blue-400 w-full flex px-4 justify-between fixed top-0 left-0">
+                    <div className="h-16 p-2 flex justify-center items-center w-full sm:w-auto">
                         <img onClick={()=>{nav("/")}} className="h-full object-contain" src="/imagens_Coronel_Fabriciano_02.png" alt="" />
                     </div>
-                    <div className="flex justify-center gap-4 p-2">
+                    <div className="flex justify-center gap-4 p-2 mx-auto sm:mx-0">
                         <Button onClick={() => {
                           setLogin({open:true, isAdmin:true})
                         }} newClass="bg-blue-900"  title="Painel Admin"/>
@@ -26,7 +26,7 @@ export default function Layout(){
 
                     </div>
                 </header>
-                <main className="flex flex-col flex-1 bg-slate-200 mt-14">
+                <main className="flex flex-col flex-1 bg-slate-200 pt-20">
                     <Outlet />
                 </main>
                 <ToastContainer />

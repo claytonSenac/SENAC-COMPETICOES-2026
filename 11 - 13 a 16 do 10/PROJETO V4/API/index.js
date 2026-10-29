@@ -45,10 +45,24 @@ app.get("/saude", async (req,res) => {
     }
   });
 
+  const totInscricoes = await db.inscricao.count({
+    where:{
+      Ativo:true,
+      atividade:{
+        Data:{
+          gte: new Date()
+        }
+      }
+    }
+  })
+
   const menorAderencia = await atividadeService.buscarComMenorAderencia()
 
   res.status(200).json(Result.sucess(200, "sucesso", {
-    participantes: totParticipantes, atividades: totAtividades, proximas:next.data,
+    participantes: totParticipantes, 
+    atividades: totAtividades, 
+    proximas:next.data,
+    inscritos: totInscricoes,
     menorAderencia: menorAderencia.data
   }));
 });

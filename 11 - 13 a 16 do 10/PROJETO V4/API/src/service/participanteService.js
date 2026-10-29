@@ -1,6 +1,7 @@
 import { Result } from "../utils/result.js";
 import { db } from "../core/dbContext.js";
 import bcrypt from "bcryptjs";
+import { formatarData } from "./atividadeService.js";
 
 async function listar(){
     try {
@@ -41,6 +42,10 @@ async function detalhesParticipante(id){
                 }
             }
         });
+
+        exists.inscricao.map((i)=>(
+            i.atividade.dataFormatada = formatarData(i.atividade.Data)
+        ))
 
         return Result.sucess(200,"sucesso",exists);
     } catch (error) {

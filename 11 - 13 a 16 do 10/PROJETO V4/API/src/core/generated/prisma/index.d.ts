@@ -6134,6 +6134,8 @@ export namespace Prisma {
     nome: string | null
     vagas: number | null
     vagasRestantes: number | null
+    Data: Date | null
+    Horario: string | null
     totalInscritos: bigint | null
     aderencia: Decimal | null
   }
@@ -6143,6 +6145,8 @@ export namespace Prisma {
     nome: string | null
     vagas: number | null
     vagasRestantes: number | null
+    Data: Date | null
+    Horario: string | null
     totalInscritos: bigint | null
     aderencia: Decimal | null
   }
@@ -6152,6 +6156,8 @@ export namespace Prisma {
     nome: number
     vagas: number
     vagasRestantes: number
+    Data: number
+    Horario: number
     totalInscritos: number
     aderencia: number
     _all: number
@@ -6177,6 +6183,8 @@ export namespace Prisma {
     nome?: true
     vagas?: true
     vagasRestantes?: true
+    Data?: true
+    Horario?: true
     totalInscritos?: true
     aderencia?: true
   }
@@ -6186,6 +6194,8 @@ export namespace Prisma {
     nome?: true
     vagas?: true
     vagasRestantes?: true
+    Data?: true
+    Horario?: true
     totalInscritos?: true
     aderencia?: true
   }
@@ -6195,6 +6205,8 @@ export namespace Prisma {
     nome?: true
     vagas?: true
     vagasRestantes?: true
+    Data?: true
+    Horario?: true
     totalInscritos?: true
     aderencia?: true
     _all?: true
@@ -6285,6 +6297,8 @@ export namespace Prisma {
     nome: string
     vagas: number
     vagasRestantes: number
+    Data: Date
+    Horario: string | null
     totalInscritos: bigint
     aderencia: Decimal | null
     _count: Vw_atividade_menor_aderenciaCountAggregateOutputType | null
@@ -6313,6 +6327,8 @@ export namespace Prisma {
     nome?: boolean
     vagas?: boolean
     vagasRestantes?: boolean
+    Data?: boolean
+    Horario?: boolean
     totalInscritos?: boolean
     aderencia?: boolean
   }, ExtArgs["result"]["vw_atividade_menor_aderencia"]>
@@ -6324,11 +6340,13 @@ export namespace Prisma {
     nome?: boolean
     vagas?: boolean
     vagasRestantes?: boolean
+    Data?: boolean
+    Horario?: boolean
     totalInscritos?: boolean
     aderencia?: boolean
   }
 
-  export type vw_atividade_menor_aderenciaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nome" | "vagas" | "vagasRestantes" | "totalInscritos" | "aderencia", ExtArgs["result"]["vw_atividade_menor_aderencia"]>
+  export type vw_atividade_menor_aderenciaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nome" | "vagas" | "vagasRestantes" | "Data" | "Horario" | "totalInscritos" | "aderencia", ExtArgs["result"]["vw_atividade_menor_aderencia"]>
 
   export type $vw_atividade_menor_aderenciaPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "vw_atividade_menor_aderencia"
@@ -6338,6 +6356,8 @@ export namespace Prisma {
       nome: string
       vagas: number
       vagasRestantes: number
+      Data: Date
+      Horario: string | null
       totalInscritos: bigint
       aderencia: Prisma.Decimal | null
     }, ExtArgs["result"]["vw_atividade_menor_aderencia"]>
@@ -6587,6 +6607,8 @@ export namespace Prisma {
     readonly nome: FieldRef<"vw_atividade_menor_aderencia", 'String'>
     readonly vagas: FieldRef<"vw_atividade_menor_aderencia", 'Int'>
     readonly vagasRestantes: FieldRef<"vw_atividade_menor_aderencia", 'Int'>
+    readonly Data: FieldRef<"vw_atividade_menor_aderencia", 'DateTime'>
+    readonly Horario: FieldRef<"vw_atividade_menor_aderencia", 'String'>
     readonly totalInscritos: FieldRef<"vw_atividade_menor_aderencia", 'BigInt'>
     readonly aderencia: FieldRef<"vw_atividade_menor_aderencia", 'Decimal'>
   }
@@ -6807,6 +6829,8 @@ export namespace Prisma {
     nome: 'nome',
     vagas: 'vagas',
     vagasRestantes: 'vagasRestantes',
+    Data: 'Data',
+    Horario: 'Horario',
     totalInscritos: 'totalInscritos',
     aderencia: 'aderencia'
   };
@@ -6879,7 +6903,8 @@ export namespace Prisma {
 
   export const vw_atividade_menor_aderenciaOrderByRelevanceFieldEnum: {
     id: 'id',
-    nome: 'nome'
+    nome: 'nome',
+    Horario: 'Horario'
   };
 
   export type vw_atividade_menor_aderenciaOrderByRelevanceFieldEnum = (typeof vw_atividade_menor_aderenciaOrderByRelevanceFieldEnum)[keyof typeof vw_atividade_menor_aderenciaOrderByRelevanceFieldEnum]
@@ -7233,6 +7258,8 @@ export namespace Prisma {
     nome?: StringFilter<"vw_atividade_menor_aderencia"> | string
     vagas?: IntFilter<"vw_atividade_menor_aderencia"> | number
     vagasRestantes?: IntFilter<"vw_atividade_menor_aderencia"> | number
+    Data?: DateTimeFilter<"vw_atividade_menor_aderencia"> | Date | string
+    Horario?: StringNullableFilter<"vw_atividade_menor_aderencia"> | string | null
     totalInscritos?: BigIntFilter<"vw_atividade_menor_aderencia"> | bigint | number
     aderencia?: DecimalNullableFilter<"vw_atividade_menor_aderencia"> | Decimal | DecimalJsLike | number | string | null
   }
@@ -7242,6 +7269,8 @@ export namespace Prisma {
     nome?: SortOrder
     vagas?: SortOrder
     vagasRestantes?: SortOrder
+    Data?: SortOrder
+    Horario?: SortOrderInput | SortOrder
     totalInscritos?: SortOrder
     aderencia?: SortOrderInput | SortOrder
     _relevance?: vw_atividade_menor_aderenciaOrderByRelevanceInput
@@ -7252,6 +7281,8 @@ export namespace Prisma {
     nome?: SortOrder
     vagas?: SortOrder
     vagasRestantes?: SortOrder
+    Data?: SortOrder
+    Horario?: SortOrderInput | SortOrder
     totalInscritos?: SortOrder
     aderencia?: SortOrderInput | SortOrder
     _count?: vw_atividade_menor_aderenciaCountOrderByAggregateInput
@@ -7269,6 +7300,8 @@ export namespace Prisma {
     nome?: StringWithAggregatesFilter<"vw_atividade_menor_aderencia"> | string
     vagas?: IntWithAggregatesFilter<"vw_atividade_menor_aderencia"> | number
     vagasRestantes?: IntWithAggregatesFilter<"vw_atividade_menor_aderencia"> | number
+    Data?: DateTimeWithAggregatesFilter<"vw_atividade_menor_aderencia"> | Date | string
+    Horario?: StringNullableWithAggregatesFilter<"vw_atividade_menor_aderencia"> | string | null
     totalInscritos?: BigIntWithAggregatesFilter<"vw_atividade_menor_aderencia"> | bigint | number
     aderencia?: DecimalNullableWithAggregatesFilter<"vw_atividade_menor_aderencia"> | Decimal | DecimalJsLike | number | string | null
   }
@@ -7921,6 +7954,8 @@ export namespace Prisma {
     nome?: SortOrder
     vagas?: SortOrder
     vagasRestantes?: SortOrder
+    Data?: SortOrder
+    Horario?: SortOrder
     totalInscritos?: SortOrder
     aderencia?: SortOrder
   }
@@ -7937,6 +7972,8 @@ export namespace Prisma {
     nome?: SortOrder
     vagas?: SortOrder
     vagasRestantes?: SortOrder
+    Data?: SortOrder
+    Horario?: SortOrder
     totalInscritos?: SortOrder
     aderencia?: SortOrder
   }
@@ -7946,6 +7983,8 @@ export namespace Prisma {
     nome?: SortOrder
     vagas?: SortOrder
     vagasRestantes?: SortOrder
+    Data?: SortOrder
+    Horario?: SortOrder
     totalInscritos?: SortOrder
     aderencia?: SortOrder
   }

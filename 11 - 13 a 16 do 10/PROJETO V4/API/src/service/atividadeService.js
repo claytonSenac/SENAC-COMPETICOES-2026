@@ -63,7 +63,8 @@ async function listar(qtd){
         }
 
         res.map((r)=>(
-            r.dataInput = r.Data.toISOString().slice(0,10)
+            r.dataInput = r.Data.toISOString().slice(0,10),
+            r.dataFormatada = formatarData(r.Data)
         ));
 
         return Result.sucess(200,"sucesso", res);
@@ -71,6 +72,17 @@ async function listar(qtd){
         console.log(error)
         return Result.fail(error)
     }
+}
+
+export function formatarData(data){
+    const d = new Date(data);
+    console.log(d)
+    // console.log(d.toLocaleDateString("pt-br",{
+    //     timeZone:"UTC",
+    // }));
+    return d.toLocaleDateString("pt-br",{
+        timeZone:"UTC"
+    })
 }
 
 async function criar(body){
@@ -204,7 +216,8 @@ async function listarDisponiveis(idParticipante){
 
         
         res.map((r)=>(
-            r.dataInput = r.Data.toISOString().slice(0,10)
+            r.dataInput = r.Data.toISOString().slice(0,10),
+            r.dataFormatada = formatarData(r.Data)
         ));
 
         return Result.sucess(200,"sucesso", res)
@@ -216,10 +229,17 @@ async function listarDisponiveis(idParticipante){
 
 async function buscarComMenorAderencia(){
     try {
-        let res = await db.vw_atividade_menor_aderencia.findFirst();
+        let res = await db.vw_atividade_menor_aderencia.findFirst({
+            where:{
+                Data: {
+                    gte: new Date()
+                }
+            }
+        });
+        res.dataInput = res.Data.toISOString().slice(0,10)
 
         res.totalInscritos = Number(res.totalInscritos)
-
+        res.dataFormatada =   formatarData(res.Data)
         return Result.sucess(200, "buscado", res)
     } catch (error) {
         console.log(error);

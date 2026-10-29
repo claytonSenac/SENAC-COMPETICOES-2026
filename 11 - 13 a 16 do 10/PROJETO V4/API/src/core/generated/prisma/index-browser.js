@@ -164,6 +164,8 @@ exports.Prisma.Vw_atividade_menor_aderenciaScalarFieldEnum = {
   nome: 'nome',
   vagas: 'vagas',
   vagasRestantes: 'vagasRestantes',
+  Data: 'Data',
+  Horario: 'Horario',
   totalInscritos: 'totalInscritos',
   aderencia: 'aderencia'
 };
@@ -212,7 +214,8 @@ exports.Prisma.userOrderByRelevanceFieldEnum = {
 
 exports.Prisma.vw_atividade_menor_aderenciaOrderByRelevanceFieldEnum = {
   id: 'id',
-  nome: 'nome'
+  nome: 'nome',
+  Horario: 'Horario'
 };
 
 
